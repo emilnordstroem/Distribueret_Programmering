@@ -6,7 +6,7 @@ function max(numberArray) {
     }
     let largestNumber;
     
-    for (const number in numberArray) {
+    for (const number of numberArray) {
         if (largestNumber == null) {
             largestNumber = number
         } else if (number > largestNumber)  {
