@@ -1,6 +1,6 @@
 const sampleArray = [1, 2, 3, 4, 5];
 
-function max(numberArray) {
+sampleArray.max = (numberArray) => {
     if (numberArray == null || numberArray.length <= 0) {
         return null;
     }
@@ -13,11 +13,10 @@ function max(numberArray) {
             largestNumber = number;
         }
     }
-
     return largestNumber; 
 }
 
-function constains(elementArray, element) {
+sampleArray.contains = (elementArray, element) => {
     if (elementArray == null || elementArray.length <= 0 || element == null) {
         return false;
     }
@@ -31,7 +30,7 @@ function constains(elementArray, element) {
     return false;
 }
 
-function sum(array) {
+sampleArray.sum = (array) => {
     if (array == null) {
         return null;
     } else if (array.length <= 0) {
@@ -45,6 +44,6 @@ function sum(array) {
     return sum;
 }
 
-console.log(max(sampleArray));
-console.log(constains(sampleArray, 0));
-console.log(sum(sampleArray));
+console.log(sampleArray.max(sampleArray));
+console.log(sampleArray.contains(sampleArray, 0));
+console.log(sampleArray.sum(sampleArray));

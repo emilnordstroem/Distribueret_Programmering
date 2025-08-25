@@ -4,12 +4,17 @@ function bubbleSort(tekstStraenge) {
     for (let nuvaerendeIndex = 0; nuvaerendeIndex < tekstStraenge.length - 1; nuvaerendeIndex++) {
         for (let iterationsIndeks = 0; iterationsIndeks < tekstStraenge.length - 1 - nuvaerendeIndex; iterationsIndeks++) {
             if (tekstStraenge[iterationsIndeks] > tekstStraenge[iterationsIndeks + 1]) {
-                let temp = tekstStraenge[iterationsIndeks];
-                tekstStraenge[iterationsIndeks] = tekstStraenge[iterationsIndeks + 1];
-                tekstStraenge[iterationsIndeks + 1] = temp;
+                tekstStraenge = swap(tekstStraenge, iterationsIndeks, iterationsIndeks + 1);
             }
         }
     }
+    return tekstStraenge;
+}
+
+function swap(tekstStraenge, index1, index2) {
+    let temp = tekstStraenge[index1];
+    tekstStraenge[index1] = tekstStraenge[index2];
+    tekstStraenge[index2] = temp;
     return tekstStraenge;
 }
 
