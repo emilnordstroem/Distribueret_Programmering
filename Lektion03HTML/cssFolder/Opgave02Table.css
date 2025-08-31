@@ -1,0 +1,14 @@
+h1 {
+    font-display: solid blue;
+}
+
+
+table, th, td {
+    border: 3px solid blue;
+    border-collapse: collapse;
+}
+
+img {
+    width: 80px;
+    height: 100px;
+}

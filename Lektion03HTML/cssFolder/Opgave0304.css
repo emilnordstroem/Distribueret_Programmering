@@ -1,0 +1,33 @@
+
+h1 {
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    gap: 1rem;
+}
+
+.grid-item {
+    display: grid;
+    grid-template-columns: 100px 1fr; /* image fixed, text flexible */
+    align-items: center;
+}
+
+.grid-item img {
+    width: 80px;
+    height: auto;
+}
+
+/*
+    When a certain condition is meet in the browser (size of window)
+*/
+@media (max-width: 600px) {
+  .grid-item {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-item img {
+    margin-bottom: 1rem;
+  }
+}
