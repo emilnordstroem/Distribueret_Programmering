@@ -4,12 +4,10 @@ function max(numberArray) {
     if (numberArray == null || numberArray.length <= 0) {
         return null;
     }
-    let largestNumber;
+    let largestNumber = sampleArray[0];
     
     for (const number of numberArray) {
-        if (largestNumber == null) {
-            largestNumber = number
-        } else if (number > largestNumber)  {
+        if (number > largestNumber)  {
             largestNumber = number;
         }
     }
