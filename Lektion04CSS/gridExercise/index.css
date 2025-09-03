@@ -1,0 +1,51 @@
+h1 {
+    font-weight: bold;
+}
+
+img {
+    width: 80px;
+    height: auto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "header header"
+    "rulesMain upperPhoto"
+    "lowerPhoto finishMain";
+}
+
+header {
+  grid-area: header;
+}
+
+.grid-item regler {
+  grid-area: rulesMain;
+}
+
+.grid-item upperPhoto {
+  grid-area: upperPhoto;
+}
+
+grid-item slutRegler {
+  grid-area: lowerPhoto;
+}
+
+.grid-item lowerPhoto {
+  grid-area: lowerPhoto;
+}
+
+/*
+    When a certain condition is meet in the browser (size of window)
+*/
+@media (max-width: 600px) {
+  .grid-item {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-item img {
+    margin-bottom: 1rem;
+  }
+}
