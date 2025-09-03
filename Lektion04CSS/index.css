@@ -1,0 +1,31 @@
+.griddle {
+    height: 100vh; /* 100% af viewport højden */
+    display: grid;
+    grid-template-rows: 100px 1fr 100px;
+}
+
+/* Hvis vinduet bliver mindre end 700 pixels, ændres layoutet */
+@media (min-width: 700px) {
+    .griddle {
+        height: 100vh; /* 100% af viewport højden */
+        display: grid;
+        grid-template-columns: 120px 1fr 120px;
+    }
+}
+
+.cake {
+    background-color: #edcf9f;
+}
+
+.fillings {
+    background-color: #f6a623;
+}
+
+div > div {
+    background-color: white;
+}
+
+div.cheese > h2 {
+    font-size: 100px;
+    color: brown;
+}
