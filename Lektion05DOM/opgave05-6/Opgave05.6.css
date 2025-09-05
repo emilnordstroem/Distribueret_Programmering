@@ -1,0 +1,16 @@
+
+header {
+    color: red;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+#mountainOverview {
+    border-collapse: collapse;
+    border: 2px solid blue;
+    background-color: gainsboro;
+}
+
+td {
+    border: 2px solid blue;
+}
