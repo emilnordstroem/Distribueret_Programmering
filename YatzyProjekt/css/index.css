@@ -33,6 +33,7 @@
     grid-area: turn-count-overview;
     display: flex;
     justify-content: left;
+    gap: 10px;
 }
 
 #roll-dice-interaction {
