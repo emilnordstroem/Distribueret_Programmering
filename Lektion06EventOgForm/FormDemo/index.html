@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <form action="" method="post">
+        <input type="text" name="username" id="username" placeholder="skriv dit brugernavn">
+        <br>
+        <input type="text" name="password" id="password" placeholder="password">
+        <br>
+        <label for="type">brugertype:</label>
+        <select name="type" id="type">
+            <option value="admin">Admin</option>
+            <option value="user" selected>Bruger</option>
+            <option value="superUser">Super bruger</option>
+        </select>
+        <br>
+        <button id="loginBtn" >
+            login
+        </button>
+        <button type="submit">
+            LOGIN via serverKom
+        </button>
+    </form>
+</body>
+</html>
