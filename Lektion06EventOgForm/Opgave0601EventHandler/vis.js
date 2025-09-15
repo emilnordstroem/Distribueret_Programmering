@@ -1,6 +1,7 @@
 
 function setup(){
     fillLabelElement();
+    addResetButtonListener();
 }
 
 function fillLabelElement () {
@@ -38,6 +39,11 @@ function addElementBeforeAnotherElement(parentElement, elementToAdd){
     const firstChildOfParentElement = parentElement.firstElementChild;
     parentElement.appendChild(firstChildOfParentElement);
     parentElement.appendChild(elementToAdd);
+}
+
+function addResetButtonListener(){
+    const resetButton = document.querySelector("button");
+    resetButton.addEventListener("click", resetInputElements);
 }
 
 function resetInputElements(){
