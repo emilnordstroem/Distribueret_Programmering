@@ -144,24 +144,34 @@ function updateScoreCards () {
                 initialScore = fullHouse();
                 addValueToScoreCard(scoreCard, initialScore);
                 break;
+            case "small-straight":
+                initialScore = smallStraight();
+                addValueToScoreCard(scoreCard, initialScore);
+                break;
+            case "large-straight":
+                initialScore = smallStraight();
+                addValueToScoreCard(scoreCard, initialScore);
+                break;
+            case "chance":
+                initialScore = chance();
+                addValueToScoreCard(scoreCard, initialScore);
+                break;
             default: break;
         }
     }
 }
 
 function howManyPrimitiveWereRolled (index) {
-    return dicesRolled[index].count * dicesRolled[index].diceNo;
+    return dicesRolled[index].count * (index + 1);
 }
 
 function largestOnePair () {
     let pairSum = 0;
-    for (const dice of dicesRolled) {
-        if (dice.count >= 2 && betterPairFound(pairSum, dice)) {
-            pairSum = (2 * dice.diceNo);
+    for (let index = dicesRolled.length - 1; index >= 0; index--) {
+        if (dicesRolled[index].count >= 2) {
+            pairSum = (index + 1) * 2;
+            break;
         }
-    }
-    function betterPairFound (previousPairSum, dice) {
-        return previousPairSum < (dice.count * dice.diceNo);
     }
     return pairSum;
 }
@@ -169,16 +179,16 @@ function largestOnePair () {
 function largestTwoPair () {
     let pairCount = 0;
     let pairSum = 0;
-    for (const dice of dicesRolled) {
-        if (pairCount < 2 && dice.count >= 2 && betterPairFound(pairSum, dice)) {
+    for (let index = dicesRolled.length - 1; index >= 0; index--) {
+        if (dicesRolled[index].count >= 2) {
             pairCount++;
-            pairSum += (2 * dice.diceNo);
+            pairSum += (index + 1) * 2;
+        }
+        if (pairCount === 2) {
+            break;
         }
     }
-    function betterPairFound (previousPairSum, dice) {
-        return previousPairSum < (dice.count * dice.diceNo);
-    }
-    if (pairCount == 2) {
+    if (pairCount === 2) {
         return pairSum;
     }
     return 0;
@@ -186,9 +196,10 @@ function largestTwoPair () {
 
 function threeSame () {
     let sum = 0;
-    for (const dice of dicesRolled) {
-        if (dice.count >= 3) {
-            sum = (3 * dice.diceNo);
+    for (let index = dicesRolled.length - 1; index >= 0; index--) {
+        if (dicesRolled[index].count >= 3) {
+            sum = (index + 1) * 3;
+            break;
         }
     }
     return sum;
@@ -196,20 +207,68 @@ function threeSame () {
 
 function fourSame () {
     let sum = 0;
-    for (const dice of dicesRolled) {
-        if (dice.count >= 4) {
-            sum = (4 * dice.diceNo);
+    for (let index = dicesRolled.length - 1; index >= 0; index--) {
+        if (dicesRolled[index].count >= 4) {
+            sum = (index + 1) * 4;
+            break;
         }
     }
     return sum;
 }
 
 function fullHouse () {
+    let hasThreeSame = false;
+    let hasTwoSame = true;
+
     let sum = 0;
     for (const dice of dicesRolled) {
-        if (dice.count >= 5) {
-            sum = (5 * dice.diceNo);
+        if (dice.count === 3) {
+            sum += dice.diceNo * 3;
+            hasThreeSame = true;
+        } else if (dice.count === 2) {
+            sum += dice.diceNo * 2;
+            hasTwoSame = true;
         }
+    }
+
+    if (hasThreeSame && hasTwoSame) {
+        return sum;
+    }
+    return 0;
+}
+
+function smallStraight () {
+    let count = 0;
+    for (const dice of dicesRolled - 1) {
+        if (dice.diceNo < 6 && dice.count >= 1) {
+            count++;
+        }
+    }
+    if (count === 5) {
+        return 15;
+    } else {
+        return 0;
+    }
+}
+
+function largeStraight () {
+    let count = 0;
+    for (const dice of dicesRolled + 1) {
+        if (dice.diceNo > 1 && dice.count >= 1) {
+            count++;
+        }
+    }
+    if (count === 5) {
+        return 20;
+    } else {
+        return 0;
+    }
+}
+
+function chance () {
+    let sum = 0;
+    for (const dice of dicesRolled) {
+        sum = (dice.diceNo * dice.count);
     }
     return sum;
 }
