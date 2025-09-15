@@ -149,7 +149,7 @@ function updateScoreCards () {
                 addValueToScoreCard(scoreCard, initialScore);
                 break;
             case "large-straight":
-                initialScore = smallStraight();
+                initialScore = largeStraight();
                 addValueToScoreCard(scoreCard, initialScore);
                 break;
             case "chance":
@@ -238,37 +238,17 @@ function fullHouse () {
 }
 
 function smallStraight () {
-    let count = 0;
-    for (const dice of dicesRolled - 1) {
-        if (dice.diceNo < 6 && dice.count >= 1) {
-            count++;
-        }
-    }
-    if (count === 5) {
-        return 15;
-    } else {
-        return 0;
-    }
+    
 }
 
 function largeStraight () {
-    let count = 0;
-    for (const dice of dicesRolled + 1) {
-        if (dice.diceNo > 1 && dice.count >= 1) {
-            count++;
-        }
-    }
-    if (count === 5) {
-        return 20;
-    } else {
-        return 0;
-    }
+    
 }
 
 function chance () {
     let sum = 0;
     for (const dice of dicesRolled) {
-        sum = (dice.diceNo * dice.count);
+        sum += (dice.diceNo * dice.count);
     }
     return sum;
 }
