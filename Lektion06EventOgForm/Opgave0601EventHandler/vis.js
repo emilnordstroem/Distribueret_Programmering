@@ -2,6 +2,7 @@
 function setup(){
     fillLabelElement();
     addResetButtonListener();
+    addClickEvetnListener();
 }
 
 function fillLabelElement () {
@@ -39,6 +40,17 @@ function addElementBeforeAnotherElement(parentElement, elementToAdd){
     const firstChildOfParentElement = parentElement.firstElementChild;
     parentElement.appendChild(firstChildOfParentElement);
     parentElement.appendChild(elementToAdd);
+}
+
+function addClickEvetnListener () {
+    const elements = document.querySelectorAll("label", "input");
+    elements.forEach(element => {
+        element.addEventListener(onElementClick);
+    });
+}
+
+function onElementClick () {
+    
 }
 
 function addResetButtonListener(){

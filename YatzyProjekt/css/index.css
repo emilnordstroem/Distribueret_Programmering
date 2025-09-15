@@ -1,0 +1,68 @@
+
+#board {
+    display: grid;
+    grid-template-columns: 100px auto 100px;
+    grid-template-areas: 
+    ". roll-dice-section ."
+    ". score-section .";
+}
+
+#roll-dice-section{
+    grid-area: roll-dice-section;
+    display: grid;
+    grid-template-columns: 50px auto auto 50px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    ". dice-roll-overview dice-roll-overview ."
+    ". turn-count-overview roll-dice-interaction .";
+}
+
+#dices {
+    grid-area: dice-roll-overview;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#dices > input {
+    width: 100px;
+    height: 100px;
+}
+
+#turn-overview {
+    grid-area: turn-count-overview;
+    display: flex;
+    justify-content: left;
+}
+
+#roll-dice-interaction {
+    grid-area: roll-dice-interaction;
+    display: flex;
+    justify-content: right;
+}
+
+#roll-dice-button {
+    width: 120px;
+    height: 50px;
+}
+
+/*==========================================*/
+
+#dice-score-section {
+    grid-area: score-section;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.score-card {
+    display: flex;
+    padding-top: 10px;
+    gap: 100px;
+} 
+
+.score-card > label > input {
+    width: 50px;
+    height: auto;
+}
