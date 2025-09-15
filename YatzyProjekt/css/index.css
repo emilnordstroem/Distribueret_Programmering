@@ -24,9 +24,16 @@
     gap: 10px;
 }
 
-#dices > input {
-    width: 100px;
-    height: 100px;
+#dices > input[type="checkbox"] {
+    appearance: none;
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 #turn-overview {
