@@ -156,6 +156,10 @@ function updateScoreCards () {
                 initialScore = chance();
                 addValueToScoreCard(scoreCard, initialScore);
                 break;
+            case "yatzy":
+                initialScore = yatzy();
+                addValueToScoreCard(scoreCard, initialScore);
+                break;
             default: break;
         }
     }
@@ -251,6 +255,15 @@ function chance () {
         sum += (dice.diceNo * dice.count);
     }
     return sum;
+}
+
+function yatzy() {
+    for (let index = dicesRolled.length - 1; index >= 0; index--) {
+        if (dicesRolled[index] === diceObjects.length) {
+            return dicesRolled[index].diceNo * 5
+        }
+    }
+    return 0;
 }
 
 function addValueToScoreCard (scoreCard, value) {
