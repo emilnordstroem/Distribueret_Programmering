@@ -9,7 +9,8 @@ function onSumbit () {
             rollRemainingDices();
             enableRemainingDiceCheckboxes();
         } else {
-            toggleSubmitButton()
+            disableAllDiceCheckboxes();
+            toggleSubmitButton();
         }
     });
 }
@@ -38,6 +39,13 @@ function enableRemainingDiceCheckboxes () {
         } else {
             dice.disabled = true;
         }
+    }
+}
+
+function disableAllDiceCheckboxes () {
+    const dices = document.querySelectorAll("#dices > input");
+    for (const dice of dices) {
+        dice.disabled = true;
     }
 }
 
