@@ -1,3 +1,11 @@
+const diceObjects = [
+    {diceNo: 1, diceImg: ".\images\dice-side-one.png"},
+    {diceNo: 2, diceImg: ".\images\dice-side-two.png"},
+    {diceNo: 3, diceImg: ".\images\dice-side-three.png"},
+    {diceNo: 4, diceImg: ".\images\dice-side-four.png"},
+    {diceNo: 5, diceImg: ".\images\dice-side-five.png"}
+];
+
 const turnLimit = 3;
 let turnCount = 0;
 
@@ -29,6 +37,15 @@ function updateTurnCounter () {
 
 function rollRemainingDices () {
     const dices = document.querySelectorAll("#dices > input");
+    for (const dice of dices) {
+        if (!hasDiceBeenChosen(dice)) {
+            
+        }
+    }
+}
+
+function hasDiceBeenChosen (dice) {
+    return dice.checked || dice.disabled == true;
 }
 
 function enableRemainingDiceCheckboxes () {
