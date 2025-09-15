@@ -7,15 +7,16 @@ const diceObjects = [
     {diceNo: 6, diceImg: "images/dice-side-six.png"}
 ];
 
+
 const turnLimit = 3;
 let turnCount = 0;
 
 function onSumbit () {
-    const boardElement = document.getElementById("board");
-    boardElement.addEventListener("submit", (event) => {
+    const submitElement = document.getElementById("roll-dice-button");
+    submitElement.addEventListener("click", (event) => {
         event.preventDefault();
-        if(turnCount <= turnLimit) {
-            updateTurnCounter();
+        if(turnCount < turnLimit) {
+            updateTurnCounterLabel();
             rollRemainingDices();
             enableRemainingDiceCheckboxes();
         } else {
@@ -27,10 +28,10 @@ function onSumbit () {
 
 onSumbit();
 
-function updateTurnCounter () {
+function updateTurnCounterLabel () {
+    turnCount++;
     const turnCountLabel = document.getElementById("turn-count");
     turnCountLabel.textContent = turnCount;
-    turnCount++;
 }
 
 function rollRemainingDices () {
