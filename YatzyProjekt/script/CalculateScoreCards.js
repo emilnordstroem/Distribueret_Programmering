@@ -38,6 +38,39 @@ export class ScoreCardHandler {
         }
         return sum;
     }
+    
+    smallStraight() {
+        for (let index = 0; index < 5; index++) {
+            if (this.diceHandler.dicesRolled[index].count === 0) {
+                return 0;
+            }
+        }
+        if (this.diceHandler.dicesRolled[5].count > 0) {
+            return 0;
+        }
+        return 15;
+    }
+
+    largeStraight() {
+        if (this.diceHandler.dicesRolled[0].count > 0) {
+            return 0;
+        }
+        for (let index = 1; index < 6; index++) {
+            if (this.diceHandler.dicesRolled[index].count === 0) {
+                return 0;
+            }
+        }
+        return 20;
+    }
+
+    fullHouse () {
+        let sumOfThreeSame = this.multipleOccurrances(3);
+        let sumOfTwoSame = this.multipleOccurrances(2);
+        if (sumOfThreeSame !== 0 && sumOfTwoSame !== 0) {
+            return sumOfThreeSame + sumOfTwoSame;
+        } 
+        return 0;
+    }
 
 }
 

@@ -68,20 +68,23 @@ export class GameMechanics {
                         this.scoreCardHandler.chance()
                     ); 
                     break; 
-                /*
-                case "full-house": 
-                    initialScore = fullHouse(); 
-                    addValueToScoreCard(scoreCard, initialScore); 
-                    break; 
                 case "small-straight": 
-                    initialScore = smallStraight(); 
-                    addValueToScoreCard(scoreCard, initialScore); 
-                    break; 
+                    addValueToScoreCard(
+                        scoreCard, 
+                        this.scoreCardHandler.smallStraight()
+                    ); 
                 case "large-straight": 
-                    initialScore = largeStraight(); 
-                    addValueToScoreCard(scoreCard, initialScore); 
+                    addValueToScoreCard(
+                        scoreCard, 
+                        this.scoreCardHandler.largeStraight()
+                    ); 
+                    break;
+                case "full-house": 
+                    addValueToScoreCard(
+                        scoreCard, 
+                        this.scoreCardHandler.fullHouse()
+                    ); 
                     break; 
-                */
                 default: break; 
             } 
         } 
