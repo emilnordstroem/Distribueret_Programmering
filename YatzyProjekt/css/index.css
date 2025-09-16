@@ -1,6 +1,7 @@
 
 #board {
     display: grid;
+    border: 2px solid black;
     grid-template-columns: 100px auto 100px;
     grid-template-areas: 
     ". roll-dice-section ."
@@ -10,6 +11,7 @@
 #roll-dice-section{
     grid-area: roll-dice-section;
     display: grid;
+    border: 2px solid black;
     grid-template-columns: 50px auto auto 50px;
     grid-template-rows: auto;
     grid-template-areas: 
@@ -20,25 +22,35 @@
 #dices {
     grid-area: dice-roll-overview;
     display: flex;
+    border: 2px solid black;
     justify-content: center;
     gap: 10px;
 }
 
 #dices > input[type="checkbox"] {
     appearance: none;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     border: 1px solid black;
-    border-radius: 8px;
+    border-radius: 10px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
 }
 
+#dices > input.selected {
+    border: 5px solid orange;
+}
+
+#dices > input.locked {
+    border: 1px solid red;
+}
+
 #turn-overview {
     grid-area: turn-count-overview;
     display: flex;
+    border: 2px solid black;
     justify-content: left;
     gap: 10px;
 }
@@ -46,6 +58,7 @@
 #roll-dice-interaction {
     grid-area: roll-dice-interaction;
     display: flex;
+    border: 2px solid black;
     justify-content: right;
 }
 
@@ -59,18 +72,29 @@
 #dice-score-section {
     grid-area: score-section;
     display: flex;
+    border: 2px solid black;
     flex-direction: column;
-    gap: 10px;
     width: 100%;
 }
 
 .score-card {
     display: flex;
-    padding-top: 10px;
+    padding-left: 15%;
+    border: 2px solid black;
+    padding-top: 20px;
     gap: 100px;
 } 
 
+.score-card > label {
+    display: flex;
+    gap: 10px
+}
+
 .score-card > label > input {
-    width: 50px;
+    width: 25px;
     height: auto;
+}
+
+#score-name > input.locked {
+    border: 2px solid black;
 }
