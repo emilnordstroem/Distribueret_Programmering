@@ -19,6 +19,8 @@ function onSumbit () {
         if(gameMechanics.handleTurn()) {
             gameMechanics.handleDiceThrow();
             gameMechanics.updateScoreCard();
+        } else if (!gameMechanics.beenSelectedScoreCard()) {
+            return;
         } else {
             gameMechanics.resetting();
         }
@@ -61,3 +63,24 @@ function lockSelectedScoreCard(scoreCard) {
 }
 
 handleScoreCardSelection();
+
+
+function resetTheGame(){
+    const resetButton = document.getElementById("reset-game-button");
+    resetButton.addEventListener("click", event => {
+        event.preventDefault();
+        gameMechanics.resetting()
+    });
+}
+
+resetTheGame();
+
+function endTheGame(){
+    const endGameButton = document.getElementById("end-game-button");
+    endGameButton.addEventListener("click", event => {
+        event.preventDefault();
+
+    })
+}
+
+endTheGame();

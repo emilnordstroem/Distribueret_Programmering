@@ -5,7 +5,8 @@
     grid-template-columns: 100px auto 100px;
     grid-template-areas: 
     ". roll-dice-section ."
-    ". score-section .";
+    ". score-section ."
+    ". game-setting .";
 }
 
 #roll-dice-section{
@@ -74,6 +75,7 @@
     grid-area: score-section;
     display: flex;
     border: 2px solid black;
+    padding-bottom: 10px;
     flex-direction: column;
     width: 100%;
 }
@@ -103,4 +105,28 @@
 
 #dice-score-section input.nonClickable {
     cursor: not-allowed;
+}
+
+/*==========================================*/
+#reset-or-end-section {
+    grid-area: game-setting;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: 50px auto 25px auto 50px;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". reset-button . show-result-button .";
+}
+
+#reset-game-button {
+    grid-area: reset-button;
+    border: 2px solid black;
+    justify-content: right;
+}
+
+#end-game-button {
+    grid-area: show-result-button;
+    border: 2px solid black;
+    justify-content: left;
 }

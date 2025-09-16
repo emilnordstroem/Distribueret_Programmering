@@ -8,6 +8,7 @@ export class GameMechanics {
         this.diceHandler = new DiceHandler(diceObjects);
         this.turnHandler = new TurnHandler(turnLimit);
         this.scoreCardHandler = new ScoreCardHandler(this.diceHandler);
+        this.scoreCardSelected = false;
     }
     
     handleTurn () {
@@ -18,6 +19,10 @@ export class GameMechanics {
         }
         return false;
     } 
+
+    beenSelectedScoreCard () {
+        return this.scoreCardSelected;
+    }
 
     resetting(){
         this.turnHandler.resetTurnCount();
