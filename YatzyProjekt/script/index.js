@@ -50,8 +50,8 @@ function handleScoreCardSelection() {
     scoreCardContainer.addEventListener("click", (event) => {
         const scoreCard = event.target;
         if (scoreCard.tagName === "INPUT" && !scoreCard.classList.contains("nonClickable")) {
-            gameMechanics.scoreCardHasBeenChosen();
             lockSelectedScoreCard(scoreCard);
+            gameMechanics.scoreCardHasBeenChosen();
         }
     });
 }

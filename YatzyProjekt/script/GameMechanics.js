@@ -39,77 +39,42 @@ export class GameMechanics {
         let occurrencesForEquals = 2;
         
         for (const scoreCard of scoreCards) {
-            switch (scoreCard.id) { 
-                case "rolled-ones": 
-                case "rolled-twos": 
-                case "rolled-threes":  
-                case "rolled-fours": 
-                case "rolled-fives": 
-                case "rolled-sixes": 
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        indexForPrimitives++;
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard, 
-                        this.scoreCardHandler.primitiveRolledScore(
-                            indexForPrimitives
-                        )
-                    ); 
+            if (scoreCard.classList.contains("lockedScoreCard")){
+                continue;
+            }
+
+            switch (scoreCard.id) {
+                case "rolled-ones":
+                case "rolled-twos":
+                case "rolled-threes":
+                case "rolled-fours":
+                case "rolled-fives":
+                case "rolled-sixes":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.primitiveRolledScore(indexForPrimitives));
                     indexForPrimitives++;
-                    break; 
-                case "one-pair":  
-                case "three-same": 
-                case "four-same": 
-                case "yatzy": 
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        occurrencesForEquals++;
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard, 
-                        this.scoreCardHandler.multipleOccurrances(occurrencesForEquals)
-                    ); 
+                    break;
+                case "one-pair":
+                case "three-same":
+                case "four-same":
+                case "yatzy":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.multipleOccurrances(occurrencesForEquals));
                     occurrencesForEquals++;
                     break;
                 case "chance":
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard,
-                        this.scoreCardHandler.chance()
-                    ); 
-                    break; 
-                case "small-straight": 
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard, 
-                        this.scoreCardHandler.smallStraight()
-                    ); 
-                case "large-straight": 
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard, 
-                        this.scoreCardHandler.largeStraight()
-                    ); 
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.chance());
                     break;
-                case "full-house": 
-                    if (scoreCard.classList.contains("lockedScoreCard")) {
-                        break;
-                    }
-                    addValueToScoreCard(
-                        scoreCard, 
-                        this.scoreCardHandler.fullHouse()
-                    ); 
-                    break; 
-                default: break; 
-            } 
-        } 
+                case "small-straight":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.smallStraight());
+                    break;
+                case "large-straight":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.largeStraight());
+                    break;
+                case "full-house":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.fullHouse());
+                    break;
+                default: break;
+            }
+        }
 
         function addValueToScoreCard (scoreCard, value) {
             scoreCard.value = value;
