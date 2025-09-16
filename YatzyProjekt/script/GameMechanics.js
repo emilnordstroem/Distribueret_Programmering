@@ -15,16 +15,18 @@ export class GameMechanics {
             this.turnHandler.updateTurnCounter();
             this.turnHandler.updateTurnCounterLabel();
             return true;
-        } else {
-            this.turnHandler.resetTurnCount();
-            this.turnHandler.updateTurnCounterLabel();
-            this.diceHandler.resetDiceState();
-            this.diceHandler.resetDicesRolled();
-            this.diceHandler.resetDiceBackgrounds()
-            this.scoreCardHandler.resetAllUnlockedScoreCards();
-            return false;
         }
-    }    
+        return false;
+    } 
+
+    resetting(){
+        this.turnHandler.resetTurnCount();
+        this.turnHandler.updateTurnCounterLabel();
+        this.diceHandler.resetDiceState();
+        this.diceHandler.resetDicesRolled();
+        this.diceHandler.resetDiceBackgrounds()
+        this.scoreCardHandler.resetAllUnlockedScoreCards();
+    }
 
     handleDiceThrow () {
         this.diceHandler.lockSelectedDices();
@@ -36,7 +38,7 @@ export class GameMechanics {
         let indexForPrimitives = 0;
         let occurrencesForEquals = 2;
         
-        for (const scoreCard of scoreCards) { 
+        for (const scoreCard of scoreCards) {
             switch (scoreCard.id) { 
                 case "rolled-ones": 
                 case "rolled-twos": 
@@ -44,6 +46,10 @@ export class GameMechanics {
                 case "rolled-fours": 
                 case "rolled-fives": 
                 case "rolled-sixes": 
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        indexForPrimitives++;
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard, 
                         this.scoreCardHandler.primitiveRolledScore(
@@ -56,30 +62,46 @@ export class GameMechanics {
                 case "three-same": 
                 case "four-same": 
                 case "yatzy": 
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        occurrencesForEquals++;
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard, 
                         this.scoreCardHandler.multipleOccurrances(occurrencesForEquals)
                     ); 
                     occurrencesForEquals++;
                     break;
-                case "chance":    
+                case "chance":
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard,
                         this.scoreCardHandler.chance()
                     ); 
                     break; 
                 case "small-straight": 
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard, 
                         this.scoreCardHandler.smallStraight()
                     ); 
                 case "large-straight": 
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard, 
                         this.scoreCardHandler.largeStraight()
                     ); 
                     break;
                 case "full-house": 
+                    if (scoreCard.classList.contains("lockedScoreCard")) {
+                        break;
+                    }
                     addValueToScoreCard(
                         scoreCard, 
                         this.scoreCardHandler.fullHouse()
@@ -92,6 +114,15 @@ export class GameMechanics {
         function addValueToScoreCard (scoreCard, value) {
             scoreCard.value = value;
         }
+    }
+
+    scoreCardHasBeenChosen () {
+        this.turnHandler.resetTurnCount();
+        this.turnHandler.updateTurnCounterLabel();
+        this.diceHandler.resetDiceState();
+        this.diceHandler.resetDicesRolled();
+        this.diceHandler.resetDiceBackgrounds()
+        this.scoreCardHandler.resetAllUnlockedScoreCards();
     }
 
 }

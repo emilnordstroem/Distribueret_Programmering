@@ -20,7 +20,7 @@ function onSumbit () {
             gameMechanics.handleDiceThrow();
             gameMechanics.updateScoreCard();
         } else {
-            
+            gameMechanics.resetting();
         }
     });
 }
@@ -32,7 +32,7 @@ function handleDiceSelection () {
     dicesSpanElement.addEventListener ("click", event => {
         const clickedDice = event.target;
         if (clickedDice.tagName === "INPUT" 
-            && !clickedDice.classList.contains("locked")) {
+            && !clickedDice.classList.contains("lockedDice")) {
             toggleSelectDice(clickedDice);
         }
     });
@@ -43,3 +43,21 @@ function toggleSelectDice (dice) {
 }
 
 handleDiceSelection ();
+
+function handleScoreCardSelection() {
+    const scoreCardContainer = document.querySelector("#dice-score-section");
+
+    scoreCardContainer.addEventListener("click", (event) => {
+        const scoreCard = event.target;
+        if (scoreCard.tagName === "INPUT" && !scoreCard.classList.contains("nonClickable")) {
+            gameMechanics.scoreCardHasBeenChosen();
+            lockSelectedScoreCard(scoreCard);
+        }
+    });
+}
+
+function lockSelectedScoreCard(scoreCard) {
+    scoreCard.classList.add("lockedScoreCard");
+}
+
+handleScoreCardSelection();

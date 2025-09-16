@@ -28,11 +28,11 @@ export class DiceHandler {
     }
 
     lockDice (dice) {
-        dice.classList.add("locked");
+        dice.classList.add("lockedDice");
     }
 
     unlockDice (dice) {
-        dice.classList.remove("locked");
+        dice.classList.remove("lockedDice");
     }
 
     rollDices () {
@@ -58,7 +58,7 @@ export class DiceHandler {
     }
 
     isDiceLocked (dice) {
-        return dice.classList.contains("locked");
+        return dice.classList.contains("lockedDice");
     }
 
     setDiceBackground (dice, url) {

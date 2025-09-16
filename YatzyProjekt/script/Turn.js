@@ -27,4 +27,8 @@ export class TurnHandler {
         this.turnCount = 0;
     }
 
+    hasChosenScoreCard(){
+        return this.hasChosenScoreCard;
+    }
+
 }
