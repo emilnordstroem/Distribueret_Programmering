@@ -1,8 +1,13 @@
+body {
+    background-color: rgba(16, 116, 16, 0.719);
+}
+
+/* Sections */
 
 #board {
     display: grid;
-    border: 2px solid black;
-    grid-template-columns: 100px auto 100px;
+    justify-content: center;
+    grid-template-columns: 1000px auto 1000px;
     grid-template-areas: 
     ". roll-dice-section ."
     ". score-section ."
@@ -12,7 +17,12 @@
 #roll-dice-section{
     grid-area: roll-dice-section;
     display: grid;
+    background-color: rgb(255, 234, 206);
     border: 2px solid black;
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
     grid-template-columns: 50px auto auto 50px;
     grid-template-rows: auto;
     grid-template-areas: 
@@ -20,10 +30,34 @@
     ". turn-count-overview roll-dice-interaction .";
 }
 
-#dices {
-    grid-area: dice-roll-overview;
+#dice-score-section {
+    grid-area: score-section;
+    background-color: rgb(255, 234, 206);
     display: flex;
     border: 2px solid black;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    flex-direction: column;
+    width: 100%;
+}
+
+#reset-or-end-section {
+    grid-area: game-setting;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: 50px auto 25px auto 50px;
+    grid-template-rows: auto;
+    grid-template-areas:
+    ". reset-button . show-result-button .";
+}
+
+/*==========================================*/
+
+#dices {
+    grid-area: dice-roll-overview;
+    padding-bottom: 10px;
+    display: flex;
     justify-content: center;
     gap: 10px;
 }
@@ -41,18 +75,21 @@
 }
 
 #dices > input.selected {
-    border: 5px solid orange;
+    border: 5px solid green;
 }
 
 #dices > input.lockedDice {
-    border: 1px solid red;
+    border: 2px solid red;
     cursor: not-allowed;
 }
 
+/*==========================================*/
+
 #turn-overview {
     grid-area: turn-count-overview;
+    font-size: 24px;
     display: flex;
-    border: 2px solid black;
+    padding-top: 10px;
     justify-content: left;
     gap: 10px;
 }
@@ -60,46 +97,40 @@
 #roll-dice-interaction {
     grid-area: roll-dice-interaction;
     display: flex;
-    border: 2px solid black;
     justify-content: right;
 }
 
 #roll-dice-button {
-    width: 120px;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 110px;
     height: 50px;
 }
 
 /*==========================================*/
 
-#dice-score-section {
-    grid-area: score-section;
-    display: flex;
-    border: 2px solid black;
-    padding-bottom: 10px;
-    flex-direction: column;
-    width: 100%;
-}
-
 .score-card {
     display: flex;
     padding-left: 15%;
-    border: 2px solid black;
     padding-top: 20px;
     gap: 100px;
 } 
 
 .score-card > label {
     display: flex;
+    font-size: 20px;
     gap: 10px
 }
 
 .score-card > label > input {
     width: 25px;
+    border-radius: 8px;
+    font-size: 16px;
     height: auto;
 }
 
 #dice-score-section input.lockedScoreCard {
-    border: 5px solid green; 
+    border: 5px solid lightblue; 
     cursor: not-allowed;
 }
 
@@ -108,25 +139,27 @@
 }
 
 /*==========================================*/
-#reset-or-end-section {
-    grid-area: game-setting;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: grid;
-    grid-template-columns: 50px auto 25px auto 50px;
-    grid-template-rows: auto;
-    grid-template-areas:
-    ". reset-button . show-result-button .";
-}
 
 #reset-game-button {
     grid-area: reset-button;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-top: 5px;
     border: 2px solid black;
+    border-radius: 10px;    
+    background-color: rgb(255, 203, 106);
     justify-content: right;
 }
 
 #end-game-button {
     grid-area: show-result-button;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-top: 5px;
     border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgba(255, 43, 43, 0.767);
     justify-content: left;
 }
