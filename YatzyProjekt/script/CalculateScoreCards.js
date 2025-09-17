@@ -3,6 +3,20 @@ export class ScoreCardHandler {
 
     constructor(diceHandler) {
         this.diceHandler = diceHandler;
+        this.numberOfSelectedScoreCards = 0;
+    }
+
+    hasAllScoreCardsBeenSelected () {
+        return this.numberOfSelectedScoreCards === 15;
+    }
+
+    increaseNumberOfSelectedScoreCards () {
+        this.numberOfSelectedScoreCards++;
+        console.log(this.numberOfSelectedScoreCards);
+    }
+
+    resetNumberOfSelectedScoreCards () {
+        this.numberOfSelectedScoreCards = 0;
     }
 
     resetAllUnlockedScoreCards(){
@@ -14,17 +28,36 @@ export class ScoreCardHandler {
         }
     }
 
+    resetAllScoreCards(){
+        const scoreCards = document.querySelectorAll("#dice-score-section input"); 
+        for (const scoreCard of scoreCards) {
+            scoreCard.value = 0;
+            scoreCard.classList.remove("lockedScoreCard");
+        }
+    }
+
+    hasAchievedBonus () {
+        return this.totalSingleDieSum === 63;
+    }
+
+    resetScore () {
+        this.totalSingleDieSum = this.totalAdvanceCombinationSum = 0;
+    }
+
     scoreCardIsLocked(scoreCard){
         return scoreCard.classList.contains("lockedScoreCard")
     }
 
     primitiveRolledScore(index) {
-        return this.diceHandler.dicesRolled[index].count * (index + 1);
+        return  this.diceHandler.dicesRolled[index].count * (index + 1);;
     }
 
     multipleOccurrances (numberOfOccurrances) {
         for (let index = this.diceHandler.dicesRolled.length - 1; index >= 0; index--) {
             if (this.diceHandler.dicesRolled[index].count === numberOfOccurrances) {
+                if (numberOfOccurrances === 5) {
+                    return 50;
+                }
                 return this.diceHandler.dicesRolled[index].diceNo * numberOfOccurrances;
             }
         }

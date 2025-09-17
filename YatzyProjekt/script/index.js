@@ -64,12 +64,11 @@ function lockSelectedScoreCard(scoreCard) {
 
 handleScoreCardSelection();
 
-
 function resetTheGame(){
     const resetButton = document.getElementById("reset-game-button");
     resetButton.addEventListener("click", event => {
         event.preventDefault();
-        gameMechanics.resetting()
+        gameMechanics.fullReset();
     });
 }
 
@@ -79,7 +78,7 @@ function endTheGame(){
     const endGameButton = document.getElementById("end-game-button");
     endGameButton.addEventListener("click", event => {
         event.preventDefault();
-
+        gameMechanics.showResult();
     })
 }
 

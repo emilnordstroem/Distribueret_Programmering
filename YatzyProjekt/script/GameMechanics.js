@@ -1,3 +1,4 @@
+import { ScoreCardResultHandler } from "./CalculateResults.js";
 import { ScoreCardHandler } from "./CalculateScoreCards.js";
 import { DiceHandler } from "./Dices.js";
 import { TurnHandler } from "./Turn.js";
@@ -8,7 +9,7 @@ export class GameMechanics {
         this.diceHandler = new DiceHandler(diceObjects);
         this.turnHandler = new TurnHandler(turnLimit);
         this.scoreCardHandler = new ScoreCardHandler(this.diceHandler);
-        this.scoreCardSelected = false;
+        this.scoreCardSelected = false; 
     }
     
     handleTurn () {
@@ -24,13 +25,24 @@ export class GameMechanics {
         return this.scoreCardSelected;
     }
 
-    resetting(){
+    resetting () {
         this.turnHandler.resetTurnCount();
         this.turnHandler.updateTurnCounterLabel();
         this.diceHandler.resetDiceState();
         this.diceHandler.resetDicesRolled();
         this.diceHandler.resetDiceBackgrounds()
         this.scoreCardHandler.resetAllUnlockedScoreCards();
+    }
+
+    fullReset () {
+        this.turnHandler.resetTurnCount();
+        this.turnHandler.updateTurnCounterLabel();
+        this.diceHandler.resetDiceState();
+        this.diceHandler.resetDicesRolled();
+        this.diceHandler.resetDiceBackgrounds();
+        this.scoreCardHandler.resetAllScoreCards();
+        this.scoreCardHandler.resetNumberOfSelectedScoreCards();
+        this.scoreCardHandler.resetScore();
     }
 
     handleDiceThrow () {
@@ -47,7 +59,6 @@ export class GameMechanics {
             if (scoreCard.classList.contains("lockedScoreCard")){
                 continue;
             }
-
             switch (scoreCard.id) {
                 case "rolled-ones":
                 case "rolled-twos":
@@ -91,8 +102,15 @@ export class GameMechanics {
         this.turnHandler.updateTurnCounterLabel();
         this.diceHandler.resetDiceState();
         this.diceHandler.resetDicesRolled();
-        this.diceHandler.resetDiceBackgrounds()
+        this.diceHandler.resetDiceBackgrounds();
+        this.scoreCardHandler.increaseNumberOfSelectedScoreCards();
         this.scoreCardHandler.resetAllUnlockedScoreCards();
+    }
+
+    showResult () {
+        const scoreCards = document.querySelectorAll("#dice-score-section input"); 
+        const resultHandler = new ScoreCardResultHandler(scoreCards);
+        resultHandler.calculateAndUpdateResult();
     }
 
 }
