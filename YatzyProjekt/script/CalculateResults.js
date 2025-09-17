@@ -31,6 +31,9 @@ export class ScoreCardResultHandler {
         let sum = 0;
 
         for (const scoreCard of this.scoreCards) {
+            if (!scoreCard.classList.contains("lockedScoreCard")) {
+                continue;
+            }
             switch (scoreCard.id) {
                 case "rolled-ones":
                 case "rolled-twos":
@@ -55,6 +58,9 @@ export class ScoreCardResultHandler {
         let sum = 0;
 
         for (const scoreCard of this.scoreCards) {
+            if (!scoreCard.classList.contains("lockedScoreCard")) {
+                continue;
+            }
             switch (scoreCard.id) {
                 case "one-pair":
                 case "three-same":

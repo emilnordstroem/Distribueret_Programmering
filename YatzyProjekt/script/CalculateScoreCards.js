@@ -36,14 +36,6 @@ export class ScoreCardHandler {
         }
     }
 
-    hasAchievedBonus () {
-        return this.totalSingleDieSum === 63;
-    }
-
-    resetScore () {
-        this.totalSingleDieSum = this.totalAdvanceCombinationSum = 0;
-    }
-
     scoreCardIsLocked(scoreCard){
         return scoreCard.classList.contains("lockedScoreCard")
     }
