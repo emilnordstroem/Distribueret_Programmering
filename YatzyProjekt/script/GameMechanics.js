@@ -76,6 +76,9 @@ export class GameMechanics {
                     addValueToScoreCard(scoreCard, this.scoreCardHandler.multipleOccurrances(occurrencesForEquals));
                     occurrencesForEquals++;
                     break;
+                case "two-paires":
+                    addValueToScoreCard(scoreCard, this.scoreCardHandler.twoPairs());
+                    break;
                 case "chance":
                     addValueToScoreCard(scoreCard, this.scoreCardHandler.chance());
                     break;

@@ -56,6 +56,26 @@ export class ScoreCardHandler {
         return 0;
     }
 
+    twoPairs() {
+        let numberOfPairs = 0;
+        let sumOfPairs = 0;
+        let index = this.diceHandler.dicesRolled.length - 1;
+
+        while (index >= 0 && numberOfPairs < 2) {
+            if (this.diceHandler.dicesRolled[index].count === 2) {
+                numberOfPairs++;
+                sumOfPairs += this.diceHandler.dicesRolled[index].diceNo * 2;
+            }
+            index--;
+        }
+
+        if (numberOfPairs === 2) {
+            return sumOfPairs;
+        } else {
+            return 0;
+        }
+    }
+
     chance () {
         let sum = 0;
         for (const dice of this.diceHandler.dicesRolled) {
@@ -89,12 +109,31 @@ export class ScoreCardHandler {
     }
 
     fullHouse () {
-        let sumOfThreeSame = this.multipleOccurrances(3);
-        let sumOfTwoSame = this.multipleOccurrances(2);
-        if (sumOfThreeSame !== 0 && sumOfTwoSame !== 0) {
-            return sumOfThreeSame + sumOfTwoSame;
-        } 
+        let hasThreeSame = false;
+        let hasPair = false; 
+        let threeOfAKindValue = 0;
+        let pairValue = 0;
+        
+        for (let index = this.diceHandler.dicesRolled.length - 1; index >= 0; index--) {
+            if (this.diceHandler.dicesRolled[index].count === 3) {
+                hasThreeSame = true;
+                threeOfAKindValue = this.diceHandler.dicesRolled[index].diceNo * 3;
+                break;
+            }
+        }
+        
+        for (let index = this.diceHandler.dicesRolled.length - 1; index >= 0; index--) {
+            if (this.diceHandler.dicesRolled[index].count === 2) {
+                hasPair = true;
+                pairValue = this.diceHandler.dicesRolled[index].diceNo * 2;
+                break;
+            }
+        }
+        
+        if (hasThreeSame && hasPair) {
+            return threeOfAKindValue + pairValue;
+        }
+        
         return 0;
     }
-
 }
