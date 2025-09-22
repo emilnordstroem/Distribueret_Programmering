@@ -71,8 +71,8 @@ export class DiceHandler {
         for (const dice of dices) {
             if (this.isDiceLocked(dice)) {
                 this.unlockDice(dice);
-                dice.classList.remove("selected");
             }
+            dice.classList.remove("selected");
         }
     }
 
@@ -89,4 +89,5 @@ export class DiceHandler {
             dice.style.backgroundImage = "none";
         }
     }
+
 }

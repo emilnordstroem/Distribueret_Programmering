@@ -15,7 +15,7 @@ const gameMechanics = new GameMechanics(diceObjects, 3);
 function onSumbit () {
     const submitElement = document.getElementById("roll-dice-button");
     submitElement.addEventListener("click", (event) => {
-        event.preventDefault();
+        event.preventDefault(); // prevent default page state
         if(gameMechanics.handleTurn()) {
             gameMechanics.handleDiceThrow();
             gameMechanics.updateScoreCard();
