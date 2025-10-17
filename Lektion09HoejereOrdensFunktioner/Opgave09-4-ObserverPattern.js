@@ -3,6 +3,7 @@ function observer () {
     console.log("I was notified")
 }
 
+// doesn't care about the type of object added and notified
 function createSubject () {
     const observerArray = [];
     function registerObserver (observer) {
