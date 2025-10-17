@@ -55,7 +55,7 @@ const skabningerPaaUniversitet = [
     new Kat("Lilje")
 ];
 
-skabningerPaaUniversitet.sort();
+skabningerPaaUniversitet.sort(Person.compareTo);
 
 skabningerPaaUniversitet.forEach(skabning => console.log(skabning.navn));
 
