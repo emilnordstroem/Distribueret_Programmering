@@ -11,26 +11,40 @@ async function fillEarthquakeTable (url) {
     const data = await get(url).catch(error => console.error('Error Occoured in get() method: ', error))
     const recordedEarthQuakes = data.features
 
-    for (const recordedEarthQuake of recordedEarthQuakes) {
-        const earthquakeProperties = recordedEarthQuake.properties
+    let earthQuakesThatMeetCondition = []
 
-        if (!doesRecordedEarthquakeMeetCondition(earthquakeProperties)) {
-            continue;
+    for (const recordedEarthQuake of recordedEarthQuakes) {
+        const earthquakeProperies = recordedEarthQuake.properties
+
+        const earthquakeObject = {
+            "mag": earthquakeProperies.mag,
+            "place": earthquakeProperies.place,
+            "time": new Date(earthquakeProperies.time)
         }
 
+        if (!doesRecordedEarthquakeMeetCondition(earthquakeObject)) {
+            continue;
+        }
+        earthQuakesThatMeetCondition.push(earthquakeObject)
+    }
+
+    earthQuakesThatMeetCondition.sort(
+        (earthquake1, earthquake2) => earthquake2.mag - earthquake1.mag
+    )
+
+    for (const earthquake of earthQuakesThatMeetCondition) {
         const tableRowElement = document.createElement("tr")
 
         const tableDataMagnitudeElement = document.createElement("td")
-        tableDataMagnitudeElement.textContent = earthquakeProperties.mag
+        tableDataMagnitudeElement.textContent = earthquake.mag
         tableRowElement.appendChild(tableDataMagnitudeElement);
 
         const tableDataPlaceElement = document.createElement("td")
-        tableDataPlaceElement.textContent = earthquakeProperties.place
+        tableDataPlaceElement.textContent = earthquake.place
         tableRowElement.appendChild(tableDataPlaceElement);
 
         const tableDataTimeElement = document.createElement("td")
-        const earthquakeDate = new Date(earthquakeProperties.time)
-        tableDataTimeElement.textContent = earthquakeDate.toString()
+        tableDataTimeElement.textContent = earthquake.time
         tableRowElement.appendChild(tableDataTimeElement);
 
         earthquakeOverviewTableElement.appendChild(tableRowElement)
@@ -38,15 +52,16 @@ async function fillEarthquakeTable (url) {
 
 }
 
-function doesRecordedEarthquakeMeetCondition (earthquakeProperies) {
-    const earthquakeTime = earthquakeProperies.time
+function doesRecordedEarthquakeMeetCondition (earthquakeObject) {
+    const earthquakeTime = earthquakeObject.time
     const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000) // this is seven days from now in milliseconds
 
-    const earthquakeMagnitude = earthquakeProperies.mag
+    const earthquakeMagnitude = earthquakeObject.mag
     const magnitudeCondition = 5
 
-    return (earthquakeTime >= sevenDaysAgo && Date.now()) 
+    return (earthquakeTime >= sevenDaysAgo && earthquakeTime <= Date.now()) 
         && earthquakeMagnitude >= magnitudeCondition
 }
+
 
 main()
