@@ -1,5 +1,9 @@
 // opgave11.2.js
 
+function main(){
+    fillUserInformationTable()
+}
+
 // General User Information
 const userUrl = 'https://jsonplaceholder.typicode.com/users';
 // Posts from specific user
@@ -18,15 +22,44 @@ async function fillUserInformationTable () {
     
     for (const user of userInformation) {
         const tableRowElement = document.createElement("tr")
-        tableRowElement.className = "selectableUsername"
+        tableRowElement.className = "selectableUser"
         
-        const tableDataElement = document.createElement("td")
+        const usernameTableDataElement = document.createElement("td")
 
-        tableDataElement.textContent = user.username
-        tableRowElement.appendChild(tableDataElement)
+        usernameTableDataElement.textContent = user.username
+        tableRowElement.appendChild(usernameTableDataElement)
 
-        userInformationTableElement.appendChild(tableRowElement);
-    }   
+        const userIdTableDataElement = document.createElement("td")
+        userIdTableDataElement.textContent = user.id
+        tableRowElement.appendChild(userIdTableDataElement)
+
+        tableRowElement.addEventListener("click", async () => {
+            const userPosts = await get(postUrl + user.id)
+            fillUserPostsTable(user.username, userPosts)
+        })
+
+        userInformationTableElement.appendChild(tableRowElement)
+    }
 }
 
-fillUserInformationTable()
+
+function fillUserPostsTable (username, userPosts) {
+    const postedByUserLabel = document.getElementById("postedByUserLabel")
+    postedByUserLabel.textContent = `Posts by ${username}`
+
+    for (const userPost of userPosts) {
+        const tableRowElement = document.createElement("tr")        
+        const postTitleTableDataElement = document.createElement("td")
+        const postBodyTableDataElement = document.createElement("td")
+
+        postTitleTableDataElement.textContent = userPost.title
+        tableRowElement.appendChild(postTitleTableDataElement)
+
+        postBodyTableDataElement.textContent = userPost.body
+        tableRowElement.appendChild(postBodyTableDataElement)
+
+        postedByUserLabel.appendChild(tableRowElement)
+    }
+}
+
+main()
