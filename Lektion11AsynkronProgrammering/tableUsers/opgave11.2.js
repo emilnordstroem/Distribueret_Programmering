@@ -34,6 +34,7 @@ async function fillUserInformationTable () {
         tableRowElement.appendChild(userIdTableDataElement)
 
         tableRowElement.addEventListener("click", async () => {
+            resetUserPostTable () 
             const userPosts = await get(postUrl + user.id)
             fillUserPostsTable(user.username, userPosts)
         })
@@ -42,10 +43,11 @@ async function fillUserInformationTable () {
     }
 }
 
-
 function fillUserPostsTable (username, userPosts) {
     const postedByUserLabel = document.getElementById("postedByUserLabel")
     postedByUserLabel.textContent = `Posts by ${username}`
+
+    const userPostTableElement = document.getElementById("userPostsTable")
 
     for (const userPost of userPosts) {
         const tableRowElement = document.createElement("tr")        
@@ -58,8 +60,13 @@ function fillUserPostsTable (username, userPosts) {
         postBodyTableDataElement.textContent = userPost.body
         tableRowElement.appendChild(postBodyTableDataElement)
 
-        postedByUserLabel.appendChild(tableRowElement)
+        userPostTableElement.appendChild(tableRowElement)
     }
+}
+
+function resetUserPostTable () {
+    const userPostTableElement = document.getElementById("userPostsTable")
+    userPostTableElement.innerHTML = " "
 }
 
 main()
