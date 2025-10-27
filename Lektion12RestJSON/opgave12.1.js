@@ -3,7 +3,7 @@
 const earthquakeUrl ='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson'
 
 function main () {
-    fillEarthquakeTable (earthquakeUrl)
+    setupEarthquakeTable (earthquakeUrl)
 }
 
 class Earthquake {
@@ -30,33 +30,28 @@ class Earthquake {
     }
 }
 
-async function fillEarthquakeTable (url) {
-    const earthquakeOverviewTableElement = document.getElementById("earthquakesOverviewTable")
-    const data = await get(url).catch(error => console.error('Error Occoured in get() method: ', error))
-    const recordedEarthQuakes = data.features
-
-    let earthQuakesThatMeetCondition = []
-
-    for (const recordedEarthQuake of recordedEarthQuakes) {
-        const earthquakeProperies = recordedEarthQuake.properties
-
-        const earthquake = new Earthquake(
-            earthquakeProperies.mag, 
-            earthquakeProperies.place,
-            new Date(earthquakeProperies.time)
-        )
-
-        if (!doesRecordedEarthquakeMeetCondition(earthquake)) {
-            continue;
-        }
-        earthQuakesThatMeetCondition.push(earthquake)
+async function setupEarthquakeTable (url) {
+    let data;
+    try {
+        data = await get(url)    
+    } catch (error) {
+        console.error('Error Occoured in get() method: ', error)
     }
+
+    const recordedEarthQuakes = data.features
+    const earthQuakesThatMeetCondition = createEarthQuakeArray(recordedEarthQuakes)
 
     earthQuakesThatMeetCondition.sort(
         (earthquake1, earthquake2) => earthquake2.magnitude - earthquake1.magnitude
     )
 
-    for (const earthquake of earthQuakesThatMeetCondition) {
+    fillEarthquakeTable(earthQuakesThatMeetCondition)
+}
+
+function fillEarthquakeTable (earthquakes) {
+    const earthquakeOverviewTableElement = document.getElementById("earthquakesOverviewTable")
+
+    for (const earthquake of earthquakes) {
         const tableRowElement = document.createElement("tr")
 
         const tableDataMagnitudeElement = document.createElement("td")
@@ -73,7 +68,26 @@ async function fillEarthquakeTable (url) {
 
         earthquakeOverviewTableElement.appendChild(tableRowElement)
     }
+}
 
+function createEarthQuakeArray(recordedEarthQuakes){
+    let earthQuakesThatMeetCondition = []
+    
+    for (const recordedEarthQuake of recordedEarthQuakes) {
+        const earthquakeProperies = recordedEarthQuake.properties
+
+        const earthquake = new Earthquake(
+            earthquakeProperies.mag, 
+            earthquakeProperies.place,
+            new Date(earthquakeProperies.time)
+        )
+
+        if (!doesRecordedEarthquakeMeetCondition(earthquake)) {
+            continue;
+        }
+        earthQuakesThatMeetCondition.push(earthquake)
+    }
+    return earthQuakesThatMeetCondition
 }
 
 function doesRecordedEarthquakeMeetCondition (earthquake) {

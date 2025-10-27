@@ -12,10 +12,13 @@ async function get(url) {
     return await response.json();
 }
 
-function printUsers (url) {
-    get(url)
-    .then(result => console.log(result))
-    .catch(error => console.error("Error has occured", error))
+async function printUsers (url) {
+    try {
+        const result = await get(url)
+        console.log(result)
+    } catch (error) {
+        console.error("Error has occured", error)
+    }
 }
 
 printUsers(userUrl);
