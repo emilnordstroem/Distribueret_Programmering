@@ -5,87 +5,57 @@ const earthquakeUrl ='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/
 
 function main () {
     setupEarthquakeTable (
-        doesEarthquakeMeetMagnitudeAndDateCondition,
-        earthquakeAscendingOrder
+        filters,
+        earthquakeDescendingOrder
     )
-    onSubmitAction('submitOrderingInputElement', sortingAction)
-}
-
-//==========================OBJECT===============================
-class Earthquake {
-    #magnitude
-    #place
-    #date
-
-    constructor (magnitude, place, date) {
-        this.#magnitude = magnitude
-        this.#place = place
-        this.#date = date
-    }
-
-    get magnitude () {
-        return this.#magnitude
-    }
-
-    get place () {
-        return this.#place
-    }
-
-    get date () {
-        return this.#date
-    }
+    onSubmitAction('submitOrderingInputElement', orderingAction)
+    onSubmitAction('submitFilteringInputElement', magnitudeFilteringAction)
 }
 
 //==========================TABLE================================
 
-async function setupEarthquakeTable (doesEarthquakeMeetCondition, ordering) {
+async function setupEarthquakeTable (filterings, ordering) {
     let data;
     try {
         data = await get(earthquakeUrl)    
     } catch (error) {
         console.error('Error Occoured in get() method: ', error)
     }
-
-    const recordedEarthQuakes = data.features
+    const earthQuakes = data.features
     let earthQuakesThatMeetCondition = createEarthQuakeArray(
-        recordedEarthQuakes,
-        doesEarthquakeMeetCondition
+        earthQuakes,
+        filterings
     )
-
     earthQuakesThatMeetCondition = ordering(earthQuakesThatMeetCondition)
     
     fillEarthquakeTable(earthQuakesThatMeetCondition)
 }
 
-function createEarthQuakeArray (recordedEarthQuakes, doesRecordedEarthquakeMeetCondition) {
+function createEarthQuakeArray (earthQuakes, filterings) {
     let earthQuakesThatMeetCondition = []
     
-    for (const recordedEarthQuake of recordedEarthQuakes) {
-        const earthquakeProperies = recordedEarthQuake.properties
-
-        const earthquake = new Earthquake(
+    for (const earthQuake of earthQuakes) {
+        const earthquakeProperies = earthQuake.properties
+        const earthquakeObject = new Earthquake(
             earthquakeProperies.mag, 
             earthquakeProperies.place,
             new Date(earthquakeProperies.time)
         )
 
-        if (!doesRecordedEarthquakeMeetCondition(earthquake)) {
-            continue;
+        let fulfillsFilterCondition = true;
+        for (const filter of filterings) {
+            if (!filter(earthquakeObject)) {
+                fulfillsFilterCondition = false
+                break
+            }
         }
-        earthQuakesThatMeetCondition.push(earthquake)
+        if (!fulfillsFilterCondition) {
+            continue
+        }
+
+        earthQuakesThatMeetCondition.push(earthquakeObject)
     }
     return earthQuakesThatMeetCondition
-}
-
-function doesEarthquakeMeetMagnitudeAndDateCondition (earthquake) {
-    const earthquakeTime = earthquake.date
-    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000) // this is seven days from now in milliseconds
-
-    const earthquakeMagnitude = earthquake.magnitude
-    const magnitudeCondition = 5
-
-    return (earthquakeTime >= sevenDaysAgo && earthquakeTime <= Date.now()) 
-        && earthquakeMagnitude >= magnitudeCondition
 }
 
 function fillEarthquakeTable (earthquakes) {
@@ -121,22 +91,5 @@ function onSubmitAction (elementId, action) {
     })
 }
 
-function sortingAction (element) {
-    const currentOrderingState = element.textContent
-    if (currentOrderingState === 'asc') {
-        element.textContent = 'desc'
-        setupEarthquakeTable(
-            doesEarthquakeMeetMagnitudeAndDateCondition,
-            earthquakeDescendingOrder
-        )
-    } else if (currentOrderingState === 'desc') {
-        element.textContent = 'asc'
-        setupEarthquakeTable(
-            doesEarthquakeMeetMagnitudeAndDateCondition,
-            earthquakeAscendingOrder
-        )
-    }
-}
-
-
+//================================================================
 main()

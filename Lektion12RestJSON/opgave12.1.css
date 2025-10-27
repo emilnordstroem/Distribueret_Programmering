@@ -10,7 +10,7 @@ td {
 	grid-template-areas: 
 	'header'
 	'fromMagnitude'
-	'toMagnitude'
+	'fromDate'
 	'submitFiltering'
 	'submitOrdering';
 }
@@ -23,8 +23,8 @@ td {
 	grid-area: fromMagnitude;
 }
 
-#toMagnitudeInputElement {
-	grid-area: toMagnitude;
+#fromDateInputElement {
+	grid-area: fromDate;
 }
 
 #submitFilteringInputElement {
