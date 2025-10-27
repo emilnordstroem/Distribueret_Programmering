@@ -1,3 +1,32 @@
 td {
 	border: 1px solid blue;	
 }
+
+#filteringsElement {
+	display: grid;
+	grid-template-columns: 100%;
+    grid-auto-rows: auto;
+	gap: 8px; 
+	grid-template-areas: 
+	'header'
+	'fromMagnitude'
+	'toMagnitude'
+	'submit';
+}
+
+#filteringHeaderElement {
+	grid-area: header;
+}
+
+#fromMagnitudeInputElement {
+	grid-area: fromMagnitude;
+}
+
+#toMagnitudeInputElement {
+	grid-area: toMagnitude;
+}
+
+#submitFilteringInputElement {
+	grid-area: submit;
+	width: 100px;
+}

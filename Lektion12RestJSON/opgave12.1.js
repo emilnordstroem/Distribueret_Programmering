@@ -4,6 +4,7 @@ const earthquakeUrl ='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/
 
 function main () {
     setupEarthquakeTable (earthquakeUrl)
+    onSubmitClick ('submitFilteringInputElement', submitFilteringAction)
 }
 
 class Earthquake {
@@ -50,6 +51,7 @@ async function setupEarthquakeTable (url) {
 
 function fillEarthquakeTable (earthquakes) {
     const earthquakeOverviewTableElement = document.getElementById("earthquakesOverviewTable")
+    earthquakeOverviewTableElement.innerHTML = '';
 
     for (const earthquake of earthquakes) {
         const tableRowElement = document.createElement("tr")
@@ -70,7 +72,7 @@ function fillEarthquakeTable (earthquakes) {
     }
 }
 
-function createEarthQuakeArray(recordedEarthQuakes){
+function createEarthQuakeArray (recordedEarthQuakes) {
     let earthQuakesThatMeetCondition = []
     
     for (const recordedEarthQuake of recordedEarthQuakes) {
@@ -99,6 +101,32 @@ function doesRecordedEarthquakeMeetCondition (earthquake) {
 
     return (earthquakeTime >= sevenDaysAgo && earthquakeTime <= Date.now()) 
         && earthquakeMagnitude >= magnitudeCondition
+}
+
+function submitFilteringAction () {
+    const fromMagnitudeElement = document.getElementById('fromMagnitudeInputElement');
+    const toMagnitudeElement = document.getElementById('toMagnitudeInputElement');
+
+    const fromMagnitude = fromMagnitudeElement.textContent()
+    const toMagnitude = toMagnitudeElement.textContent()
+
+    if (!isSelectedMagnitudesValid(fromMagnitude, toMagnitude)) {
+        console.error('isSelectedMagnitudesValis returned false')
+        return;
+    }
+
+    
+
+}
+
+function isSelectedMagnitudesValid (fromMagnitude, toMagnitude) {
+    return (fromMagnitude >= 0 && toMagnitude >= 0)
+        && (fromMagnitude <= toMagnitude) 
+}
+
+function onSubmitClick (elementId, action) {
+    const submitElement = document.getElementById(elementId)
+    submitElement.addEventListener('click', action())
 }
 
 main()

@@ -16,9 +16,24 @@
       <h2>
         Get an overview over recorded earthquakes from the previous 7 days
         <br>
-        All earthquakes in this overview is magnitude scale 5 and above, listed in a decending order
+        All earthquakes in this overview is magnitude scale 5 by defualt, listed in a decending order
+        <br>
+        You can change the filtering using the menu below
       </h2>
     </header>
+
+    <article id="filteringsElement">
+      <h3 id="filteringHeaderElement">
+        Filtering:
+      </h3>
+      <label id="fromMagnitudeInputElement">
+        From Magnitude <input type="number">
+      </label>
+      <label id="toMagnitudeInputElement">
+        To Magnitude <input type="number">
+      </label>
+      <input type="submit" id="submitFilteringInputElement" value="show">
+    </article>
     
     <article>
       <table id="earthquakesOverviewTable">
