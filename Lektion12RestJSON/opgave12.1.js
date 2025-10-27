@@ -1,12 +1,17 @@
 // opgave12.1.js
+
 // https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php 
 const earthquakeUrl ='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson'
 
 function main () {
-    setupEarthquakeTable (earthquakeUrl)
-    onSubmitClick ('submitFilteringInputElement', submitFilteringAction)
+    setupEarthquakeTable (
+        doesEarthquakeMeetMagnitudeAndDateCondition,
+        earthquakeAscendingOrder
+    )
+    onSubmitAction('submitOrderingInputElement', sortingAction)
 }
 
+//==========================OBJECT===============================
 class Earthquake {
     #magnitude
     #place
@@ -31,22 +36,56 @@ class Earthquake {
     }
 }
 
-async function setupEarthquakeTable (url) {
+//==========================TABLE================================
+
+async function setupEarthquakeTable (doesEarthquakeMeetCondition, ordering) {
     let data;
     try {
-        data = await get(url)    
+        data = await get(earthquakeUrl)    
     } catch (error) {
         console.error('Error Occoured in get() method: ', error)
     }
 
     const recordedEarthQuakes = data.features
-    const earthQuakesThatMeetCondition = createEarthQuakeArray(recordedEarthQuakes)
-
-    earthQuakesThatMeetCondition.sort(
-        (earthquake1, earthquake2) => earthquake2.magnitude - earthquake1.magnitude
+    let earthQuakesThatMeetCondition = createEarthQuakeArray(
+        recordedEarthQuakes,
+        doesEarthquakeMeetCondition
     )
 
+    earthQuakesThatMeetCondition = ordering(earthQuakesThatMeetCondition)
+    
     fillEarthquakeTable(earthQuakesThatMeetCondition)
+}
+
+function createEarthQuakeArray (recordedEarthQuakes, doesRecordedEarthquakeMeetCondition) {
+    let earthQuakesThatMeetCondition = []
+    
+    for (const recordedEarthQuake of recordedEarthQuakes) {
+        const earthquakeProperies = recordedEarthQuake.properties
+
+        const earthquake = new Earthquake(
+            earthquakeProperies.mag, 
+            earthquakeProperies.place,
+            new Date(earthquakeProperies.time)
+        )
+
+        if (!doesRecordedEarthquakeMeetCondition(earthquake)) {
+            continue;
+        }
+        earthQuakesThatMeetCondition.push(earthquake)
+    }
+    return earthQuakesThatMeetCondition
+}
+
+function doesEarthquakeMeetMagnitudeAndDateCondition (earthquake) {
+    const earthquakeTime = earthquake.date
+    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000) // this is seven days from now in milliseconds
+
+    const earthquakeMagnitude = earthquake.magnitude
+    const magnitudeCondition = 5
+
+    return (earthquakeTime >= sevenDaysAgo && earthquakeTime <= Date.now()) 
+        && earthquakeMagnitude >= magnitudeCondition
 }
 
 function fillEarthquakeTable (earthquakes) {
@@ -72,61 +111,32 @@ function fillEarthquakeTable (earthquakes) {
     }
 }
 
-function createEarthQuakeArray (recordedEarthQuakes) {
-    let earthQuakesThatMeetCondition = []
-    
-    for (const recordedEarthQuake of recordedEarthQuakes) {
-        const earthquakeProperies = recordedEarthQuake.properties
+//===========================ON ACTION============================
 
-        const earthquake = new Earthquake(
-            earthquakeProperies.mag, 
-            earthquakeProperies.place,
-            new Date(earthquakeProperies.time)
+function onSubmitAction (elementId, action) {
+    const element = document.getElementById(elementId)
+    element.addEventListener('click', (event) => {
+        event.preventDefault()
+        action(element)
+    })
+}
+
+function sortingAction (element) {
+    const currentOrderingState = element.textContent
+    if (currentOrderingState === 'asc') {
+        element.textContent = 'desc'
+        setupEarthquakeTable(
+            doesEarthquakeMeetMagnitudeAndDateCondition,
+            earthquakeDescendingOrder
         )
-
-        if (!doesRecordedEarthquakeMeetCondition(earthquake)) {
-            continue;
-        }
-        earthQuakesThatMeetCondition.push(earthquake)
+    } else if (currentOrderingState === 'desc') {
+        element.textContent = 'asc'
+        setupEarthquakeTable(
+            doesEarthquakeMeetMagnitudeAndDateCondition,
+            earthquakeAscendingOrder
+        )
     }
-    return earthQuakesThatMeetCondition
 }
 
-function doesRecordedEarthquakeMeetCondition (earthquake) {
-    const earthquakeTime = earthquake.date
-    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000) // this is seven days from now in milliseconds
-
-    const earthquakeMagnitude = earthquake.magnitude
-    const magnitudeCondition = 5
-
-    return (earthquakeTime >= sevenDaysAgo && earthquakeTime <= Date.now()) 
-        && earthquakeMagnitude >= magnitudeCondition
-}
-
-function submitFilteringAction () {
-    const fromMagnitudeElement = document.getElementById('fromMagnitudeInputElement');
-    const toMagnitudeElement = document.getElementById('toMagnitudeInputElement');
-
-    const fromMagnitude = fromMagnitudeElement.textContent()
-    const toMagnitude = toMagnitudeElement.textContent()
-
-    if (!isSelectedMagnitudesValid(fromMagnitude, toMagnitude)) {
-        console.error('isSelectedMagnitudesValis returned false')
-        return;
-    }
-
-    
-
-}
-
-function isSelectedMagnitudesValid (fromMagnitude, toMagnitude) {
-    return (fromMagnitude >= 0 && toMagnitude >= 0)
-        && (fromMagnitude <= toMagnitude) 
-}
-
-function onSubmitClick (elementId, action) {
-    const submitElement = document.getElementById(elementId)
-    submitElement.addEventListener('click', action())
-}
 
 main()

@@ -11,7 +11,8 @@ td {
 	'header'
 	'fromMagnitude'
 	'toMagnitude'
-	'submit';
+	'submitFiltering'
+	'submitOrdering';
 }
 
 #filteringHeaderElement {
@@ -27,6 +28,11 @@ td {
 }
 
 #submitFilteringInputElement {
-	grid-area: submit;
+	grid-area: submitFiltering;
+	width: 100px;
+}
+
+#submitOrderingInputElement {
+	grid-area: submitOrdering;
 	width: 100px;
 }
