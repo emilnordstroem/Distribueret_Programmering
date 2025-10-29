@@ -1,33 +1,48 @@
 // filServerExpress.js
-const http = require('http');
-const fs = require('fs').promises;
+const express = require('express')
+const fs = require('fs/promises')
+const path = require('path')
+
+const app = express()
+const port = 8080
 
 function genererLinks(filnavne) {
     let html = '';
     for (let filnavn of filnavne) {
-        html += '<a href="' + filnavn + '">' + filnavn + '</a><br>\n';
+        html += '<a href="/filer/' + filnavn + '">' + filnavn + '</a><br>\n';
     }
     return html;
 }
 
-http.createServer(async (request, response) => {
-    if (request.url === '/') {
-        let filnavne = await fs.readdir(__dirname + '/filer');
-        let html = genererLinks(filnavne);
-        response.writeHead(200, {"Content-Type": "text/html"}); // OK
-        response.write(html);
-    } else {
-        try {
-            let sti = __dirname + '/filer' + request.url;
-            let filData = await fs.readFile(sti);
-            response.writeHead(200); // OK
-            response.write(filData);
-        } catch (e) {
-            response.writeHead(404); // Not Found
-            response.write(e.name + ": " + e.message);
-        }    
-    }    
-    response.end();
-}).listen(8080);    
+// Indsæt filer asynkront
+app.get('/', async (request, response) => {
+    try {
+        const filesPath = path.join(__dirname, 'NodeExpressFiler', 'filer') // path to files
+        const filenames = await fs.readdir(filesPath) // get array of files
+        const html = genererLinks(filenames)
+        response.status(200).send(html)
+    } catch (error) {
+        console.error(error.message);
+        response.status(500).send('Loading Error')
+    } 
+})
 
-console.log('Lytter på port 8080 ...');
+// Rote til filer
+app.get('/filer/:filnavn', async (request, response) => {
+    try {
+        const filesPath = path.join(
+            __dirname, 
+            'NodeExpressFiler', 
+            'filer', 
+            request.params.filnavn
+        )
+        const fileData = await fs.readFile(filesPath)
+        response.status(200).send(fileData)
+    } catch (error) {
+        console.error(error.message);
+        response.status(404).send('Resource Selection Error')
+    } 
+})
+
+app.listen(port)
+console.log(`Lytter på port ${port}...`);
