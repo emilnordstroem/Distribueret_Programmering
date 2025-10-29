@@ -1,6 +1,5 @@
 // userServer.js
 const http = require('http');
-const fetch = require('node-fetch');
 
 const userUrl = 'https://jsonplaceholder.typicode.com/users';
 
