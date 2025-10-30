@@ -4,6 +4,8 @@ const app = express()
 // Middleware - enables reading json objects
 app.use(express.json())
 
+
+
 const messages = []
 const chatRooms = []
 
@@ -54,3 +56,5 @@ app.get('/message/:id', (request, response) => {
         response.status(400).send('Loading Error')
     }
 })
+
+export default app

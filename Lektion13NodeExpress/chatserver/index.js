@@ -1,6 +1,10 @@
-import { app } from './server.js'
+import app from './server.js'
 
 const port = 10000
+
+app.listen(port, () => {
+    console.log(`http://localhost:${port}`)
+})
 
 async function get(url) {
     const respons = await fetch(url);
@@ -18,11 +22,6 @@ async function getAllMessagesFromChatRoom (chatRoom) {
     const messages = await fetch('/messages/' + chatRoom)
 }
 
-async function getAllMessages () {
-    const messages = await fetch('/messages')
+async function getAllChatRooms () {
+    const messages = await fetch('/chatRoom')
 }
-
-
-app.listen(port => {
-    console.log(`http://localhost:${port}`)
-})
