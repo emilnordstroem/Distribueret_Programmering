@@ -46,9 +46,9 @@ app.get('/message/:id', (request, response) => {
     try {
         const requestedMessageId = request.params.id
         const messageMatchingId = messages.filter(
-            message => message.id === requestedMessageId
+            message => message.id !== requestedMessageId
         )
-        response.status(200).json(messageMatchingId)
+        response.status(200).send(`Slettet: id ${requestedMessageId}`)
     } catch (error) {
         console.error('Loading Chat Room Error:', error.message)
         response.status(400).send('Loading Error')
