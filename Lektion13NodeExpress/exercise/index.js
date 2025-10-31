@@ -5,8 +5,6 @@ const earthquakeUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary
 const port = 10000
 const app = express()
 
-app.use(express.static('assets')) // filer i mappe assets fanges - tager assets from roden
-
 async function get(url) {
     const respons = await fetch(url);
     if (respons.status !== 200) // OK
