@@ -1,4 +1,4 @@
-const express = require('express')
+import express from 'express'
 
 const userUrl = 'https://jsonplaceholder.typicode.com/users';
 const port = 8080
@@ -14,7 +14,7 @@ async function get(url) {
 
 function genererTabel(users) {
     let html = '<table>';
-    for (user of users) {
+    for (const user of users) {
         html +=
             '<tr><td>' + user.id +
             '</td><td>' + user.name +
@@ -29,7 +29,7 @@ app.get('/', async (request, response) => {
     try {
         const userData = await get(userUrl)
         const html = genererTabel(userData)
-        response.status(200).send(html)
+        response.send(html)
     } catch (error) {
         console.error('Loading Error', error.message);
         response.status(400).send('Loading Error')
