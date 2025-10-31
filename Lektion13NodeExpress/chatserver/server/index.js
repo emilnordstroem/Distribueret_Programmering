@@ -1,18 +1,34 @@
 import express from 'express'
+import Message from './message.js';
 
+const port = 10000
 const app = express()
 
-// Middleware
+// middleware
+app.use(express.urlencoded({ extended: true })); // parses HTML form submissions
 app.use(express.json())
+app.use(express.static('./assets'))
 
 const messages = []
 
+function generateMessageOverviewPage (messages) {
+    return generateMessageInputField() + generateMessageOverviewTable(messages)
+}
+
+function generateChatroomOverviewPage (chatrooms) {
+    return generateMessageInputField() + generateChatroomOverviewTable(chatrooms)
+}
+
 function generateMessageOverviewTable (messages) {
     let html = '<table>'
+
     for (let message of messages) {
-        let { username, chatroom, text } = message
+        let { id, username, chatroom, text } = message
         html += 
         `<tr>
+            <td>
+                ${id}
+            </td>
             <td>
                 ${username}
             </td>
@@ -43,13 +59,26 @@ function generateChatroomOverviewTable (chatrooms) {
 }
 
 function generateMessageInputField () {
-    
+    let html = 
+        `<form action="http://localhost:${port}" method="POST">
+            <label for="username">Username</label>
+            <input name="username" required>
+
+            <label for="chatroom">Chat room</label>
+            <input name="chatroom" required>
+
+            <label for="text">Message</label>
+            <input name="text" required>
+
+            <input type="submit" value="Send">
+        </form>`
+    return html
 }
 
 // GET all messages
 app.get('/', (require, response) => {
     try {
-        const html = generateMessageOverviewTable(messages)
+        let html = generateMessageOverviewPage(messages)
         response.send(html)  
     } catch (error) {
         console.error('GET all messages error: ', error.message)
@@ -61,7 +90,7 @@ app.get('/:chatroom', (require, response) => {
     try {
         const chatroom = require.params.chatroom
         const filteredMessages = messages.filter(message => message.chatroom == chatroom)
-        const html = generateMessageOverviewTable(filteredMessages)
+        const html = generateMessageOverviewPage(filteredMessages)
         response.send(html)  
     } catch (error) {
         console.error('GET all messages error: ', error.message)
@@ -72,7 +101,7 @@ app.get('/:chatroom', (require, response) => {
 app.get('/chatrooms', (require, response) => {
     try {
         const chatrooms = [... new Set(messages.map(message => message.chatroom))]
-        const html = generateChatroomOverviewTable(chatrooms)
+        const html = generateChatroomOverviewPage(chatrooms)
         response.send(html)
     } catch (error) {
         console.error('GET all messages error: ', error.message)
@@ -80,28 +109,32 @@ app.get('/chatrooms', (require, response) => {
 })
 
 // POST message to chat room
-app.post('/', (require, response) => {
-    const newPost = new Post(
-        null,
-        require.username,
-        require.chatroom,
-        require.text
-    )
-    messages.push(newPost)
-    const html = generateChatroomOverviewTable(messages)
-    response.send(html)
+app.post('/', (req, res) => {
+    try {
+        const {username, chatroom, text} = req.body
+        const newMessage = new Message(
+            null,
+            username,
+            chatroom,
+            text
+        )
+        messages.push(newMessage)
+
+        const html = generateMessageOverviewPage(messages)
+        res.send(html)
+    } catch (error) {
+        console.error('POST message error: ', error.message)
+    }
 })
 
 // DELETE message with message id
 app.delete('/:id', (require, response) => {
     const id = require.params.id
     messages.filter(message => message.id !== id)
-    const html = generateMessageOverviewTable(messages)
+    const html = generateMessageOverviewPage(messages)
     response.send(html)
 })
 
-
-const port = 10000
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`)

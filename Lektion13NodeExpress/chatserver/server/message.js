@@ -1,11 +1,10 @@
 
-
-class Post {
+class Message {
     static globalIdentification = 0
 
     constructor (id, username, chatroom, text) {
         if (id == null) {
-            this.id = Post.globalIdentification++
+            this.id = Message.globalIdentification++
         } else {
             this.id = id
         }
@@ -16,3 +15,4 @@ class Post {
 
 }
 
+export default Message
