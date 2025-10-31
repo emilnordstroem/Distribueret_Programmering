@@ -1,48 +1,48 @@
-// filServerExpress.js
-const express = require('express')
-const fs = require('fs/promises')
-const path = require('path')
+import express from 'express'
+import fs from 'fs/promises'
+import path from 'path'
 
 const app = express()
 const port = 8080
 
+const filerMappe = path.join('NodeExpressFiler', 'filer')
+
+app.use('/filer', express.static(filerMappe))
+
 function genererLinks(filnavne) {
     let html = '';
     for (let filnavn of filnavne) {
-        html += '<a href="/filer/' + filnavn + '">' + filnavn + '</a><br>\n';
+        html += `<a href="/${filnavn}">${filnavn}</a><br>\n`
     }
     return html;
 }
 
-// Indsæt filer asynkront
+function genererBillede(filnavn) {
+    return `<h1>${filnavn}</h1><img src="/filer/${filnavn}" alt="${filnavn}" />`
+}
+
 app.get('/', async (request, response) => {
     try {
-        const filesPath = path.join(__dirname, 'NodeExpressFiler', 'filer') // path to files
-        const filenames = await fs.readdir(filesPath) // get array of files
+        const filenames = await fs.readdir(filerMappe)
         const html = genererLinks(filenames)
-        response.status(200).send(html)
+        response.send(html)
     } catch (error) {
-        console.error(error.message);
-        response.status(500).send('Loading Error')
-    } 
+        console.error(error.message)
+        response.send('Loading Error')
+    }
 })
 
-// Rote til filer
-app.get('/filer/:filnavn', async (request, response) => {
+app.get('/:filnavn', (request, response) => {
     try {
-        const filesPath = path.join(
-            __dirname, 
-            'NodeExpressFiler', 
-            'filer', 
-            request.params.filnavn
-        )
-        const fileData = await fs.readFile(filesPath)
-        response.status(200).send(fileData)
+        const filnavn = request.params.filnavn
+        const html = genererBillede(filnavn)
+        response.send(html)
     } catch (error) {
-        console.error(error.message);
-        response.status(404).send('Resource Selection Error')
-    } 
+        console.error(error.message)
+        response.send('Resource Selection Error')
+    }
 })
 
-app.listen(port)
-console.log(`Lytter på port ${port}...`);
+app.listen(port, () => {
+    console.log(`Server kører på http://localhost:${port}`)
+})
