@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 
 // delmængde af express - fange endpoints
 // bruger eksisterende server
