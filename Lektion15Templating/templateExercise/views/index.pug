@@ -1,0 +1,8 @@
+include includes/head
+body
+    h1 Velkommen til min bilside 
+    include includes/addmodel
+    h2 Her er en liste
+    ul 
+        each model in models
+            li= model
