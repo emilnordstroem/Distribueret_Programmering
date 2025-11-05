@@ -1,0 +1,12 @@
+table
+    tr
+        th name
+        th gender 
+        th nationality
+        th date of birth
+    each user in users
+        tr 
+            td #{user.name.title} #{user.name.first} #{user.name.last}
+            td= user.gender 
+            td= user.nat 
+            td= user.dob.date 
