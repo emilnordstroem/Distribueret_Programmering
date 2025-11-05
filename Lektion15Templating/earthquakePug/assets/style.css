@@ -1,0 +1,38 @@
+td {
+	border: 1px solid blue;	
+}
+
+#filteringsElement {
+	display: grid;
+	grid-template-columns: 100%;
+    grid-auto-rows: auto;
+	gap: 8px; 
+	grid-template-areas: 
+	'header'
+	'fromMagnitude'
+	'fromDate'
+	'submitFiltering'
+	'submitOrdering';
+}
+
+#filteringHeaderElement {
+	grid-area: header;
+}
+
+#fromMagnitudeInputElement {
+	grid-area: fromMagnitude;
+}
+
+#fromDateInputElement {
+	grid-area: fromDate;
+}
+
+#submitFilteringInputElement {
+	grid-area: submitFiltering;
+	width: 100px;
+}
+
+#submitOrderingInputElement {
+	grid-area: submitOrdering;
+	width: 100px;
+}
