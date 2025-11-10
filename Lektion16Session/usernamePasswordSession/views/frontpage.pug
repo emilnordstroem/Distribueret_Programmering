@@ -1,0 +1,11 @@
+html 
+    head  
+        title Welcome to the jungle
+    body
+        include includes/menubar
+        h1 Gun'N'Roses
+        #login 
+            form(action="/login" method="post")
+                input(type="text" name="username" placeholder="skriv username")
+                input(type="text" name="password" placeholder="skriv kodeord")
+                button(type="submit") login 

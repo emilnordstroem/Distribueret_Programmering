@@ -1,0 +1,11 @@
+html 
+  head 
+    meta(charset="UTF-8")
+    title min fede loginwebside 
+  body  
+    include includes/menubar
+    p Vores sager - dette er forsiden 
+    if !knownUser
+      include includes/loginForm
+    else
+      p Hej!, og velkommen tilbage. Du er logget ind💋
