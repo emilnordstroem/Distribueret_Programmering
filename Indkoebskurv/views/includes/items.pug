@@ -1,0 +1,16 @@
+
+table#itemOverviewTable
+    th= id 
+    th= description 
+    th= price
+    tbody 
+        each item in items 
+            tr.itemOverviewRow 
+                td= item.id 
+                td= item.description 
+                td= item.price 
+                td
+                    input.numberOfItems(type="number", name="amount" value="0" required)
+                    button.addItemToListButton add
+
+

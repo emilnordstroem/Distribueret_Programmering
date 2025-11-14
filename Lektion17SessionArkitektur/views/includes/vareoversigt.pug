@@ -2,19 +2,17 @@
 h1 Vareoversigt
 table
     thead
-    tr
-        th Betegnelse
-        th Pris
-        th id
-        th
-         
+        tr
+            th Betegnelse
+            th Pris
+            th id
+            th 
     tbody
     each vare in varer
-        tr
-        td= vare.betegnelse
-        td= vare.pris
-        td= vare.id
-        td 
-            form(action=`/indkoebskurv/${vare.id}`, method="post") 
-                input(type="number", name="antalVare" required)
-                input(type="submit", value="tilføj") 
+        tr.vareItemRow
+            td= vare.betegnelse
+            td= vare.pris
+            td.vareIdCell= vare.id
+            td.tilfoejVareInteraktion
+                input.antalVareInput(type="number" required)
+                button.tilfoejVareKnap Tilføj

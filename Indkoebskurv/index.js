@@ -3,8 +3,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 
-import homeRouter from './views/routes/homeRouter.js'
-import indkoebskurvRouter from './views/routes/indkoebskurvRouter.js'
+import itemsRouter from './views/routes/itemsList.js'
 
 const app = express();
 const port = 10000;
@@ -13,7 +12,7 @@ app.use(
     session({
         secret: 'dummySession',
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
     })
 );
 
@@ -25,16 +24,15 @@ app.use(express.static('assets'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-app.get('/', homeRouter)
-app.post('/indkoebskurv/:id', indkoebskurvRouter)
-app.get('/indkoebskurv/:id/:antal', indkoebskurvRouter)
-
-
-app.get('/logout', (request, response) => {
-    request.session.destroy
-    response.redirect('/')
+app.use('/', (request, response, next) => {
+    if (request.session.groceryList) {
+        request.session.groceryList = []
+    }
+    next
 })
+
+app.get('/', itemsRouter)
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
