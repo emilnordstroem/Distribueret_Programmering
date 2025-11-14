@@ -1,0 +1,15 @@
+include ./includes/head
+
+table#numbersOverviewTable
+    thead 
+        tr 
+            th number 
+            th add 
+    tbody 
+        each number in list
+            tr.numberTableRow
+                td= number 
+                td
+                    button.addNumberButton(type="button") +
+
+include ./includes/valueSumField
