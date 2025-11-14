@@ -14,7 +14,7 @@ router.post('/indkoebskurv/:id', (request, response) => {
         request.session.indkoebskurv.push(varelinje)    
     }
 
-    response.redirect('/')
+    response.sendStatus(200)
 })
 
 router.get('/indkoebskurv/:id/:antal', (request, response) => {

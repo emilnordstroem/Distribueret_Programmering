@@ -3,7 +3,9 @@ const vareItems = document.querySelectorAll('.vareItemRow')
 
 vareItems.forEach((vareRaekke) => {
     const vareIdInputElement = vareRaekke.querySelector('.vareIdCell')
+    console.log(vareIdInputElement)
     const antalVareInputElement = vareRaekke.querySelector('.antalVareInput')
+    console.log(antalVareInputElement)
 
     const tilfoejInteraktionFelt = vareRaekke.querySelector('.tilfoejVareInteraktion')
     const tilfoejVareKnap = tilfoejInteraktionFelt.querySelector('.tilfoejVareKnap')
@@ -12,8 +14,8 @@ vareItems.forEach((vareRaekke) => {
         const antalVare = parseInt(antalVareInputElement.value)
         console.log(vareId + " " + antalVare)
 
-        const result = await post(`/indkoebskurv/${vareId}`, { antalVare: antalVare });
-        console.log("Response from Server: " + result)
+        await post(`/indkoebskurv/${vareId}`, { antalVare: antalVare });
+        location.reload()
     })
 })
 
@@ -23,7 +25,7 @@ async function post(url, objekt) {
         body: JSON.stringify(objekt),
         headers: { 'Content-Type': 'application/json' }
     })
-    if (!respons.ok)
+    if (!respons.ok) {
         throw new Error(respons.status)
-    return await respons.json()
+    }
 }
