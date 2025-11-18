@@ -41,17 +41,17 @@ app.get('/:folder/', async (request, response) => {
     const folder = request.params.folder
     const data = await fs.readdir(`assets/PUBLIC/${folder}/`)
     response.render('index', {
-        title: title,
+        title: `${title}/${folder}`,
         files: data
     })
 })
 
 app.get('/:folder/:file', async (request, response) => {
     const { folder, file } = request.params
-    const data = await fs.readFile(`assets/PUBLIC/${folder}/${file}`, 'utf-8')
+    const data = await fs.readFile(`assets/PUBLIC/${folder}/${file}/`, 'utf-8')
 
-    response.render('contentView', {
-        title: title,
+    response.render('textContentView', {
+        title: `${title}/${folder}/${file}`,
         textContent: data
     })
 })

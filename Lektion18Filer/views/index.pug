@@ -1,2 +1,9 @@
 include includes/head
-include includes/directoryView 
+
+ul#listOfLinks
+    each file in files
+        - const isFolder = !file.includes('.')
+        li.linkElement
+            a(href=`${file}`)= file
+            if isFolder
+                button.removeDirectoryButton(type="button" data-file=`${file}`) -
