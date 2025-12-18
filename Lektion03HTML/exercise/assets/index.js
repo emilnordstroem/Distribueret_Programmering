@@ -275,49 +275,194 @@ const inventory = [
   { id: 3, name: 'Doohickey', quantity: 8 }
 ];
 
-function createItemDivElement (item) {
-    const itemDivElement = document.createElement('div')
-    itemDivElement.classList.add('itemDiv')
+function createInventoryItemDiv (item) {
+    const inventoryItemDiv = document.createElement('div')
 
-    const itemLabel = document.createElement('label')
-    itemLabel.textContent = `Item: ${item.name} Quantity:`
-    itemDivElement.appendChild(itemLabel)
+    const inventoryItemDescriptionParagraph = document.createElement('p')
+    inventoryItemDescriptionParagraph.textContent = `Item: ${item.name} Quantity: `
+    inventoryItemDiv.appendChild(inventoryItemDescriptionParagraph)
 
-    const itemQuantityLabel = document.createElement('label')
-    itemQuantityLabel.id = `quantityForItemId${item.id}`
-    itemQuantityLabel.textContent = item.quantity
-    itemDivElement.appendChild(itemQuantityLabel)
+    const inventoryItemQuantityParagraph = document.createElement('p')
+    inventoryItemQuantityParagraph.id = `quantityForItem${item.id}`
+    inventoryItemQuantityParagraph.textContent = item.quantity
+    inventoryItemDiv.appendChild(inventoryItemQuantityParagraph)
 
     const incrementQuantityButton = document.createElement('button')
     incrementQuantityButton.textContent = '+'
-    incrementQuantityButton.addEventListener('click', () => incrementQuantity(item.id))
-    itemDivElement.appendChild(incrementQuantityButton)
+    incrementQuantityButton.addEventListener('click', () => {
+        inventoryItemQuantityParagraph.textContent = parseInt(inventoryItemQuantityParagraph.textContent) + 1
+    })
+    inventoryItemDiv.appendChild(incrementQuantityButton)
 
     const subtractQuantityButton = document.createElement('button')
     subtractQuantityButton.textContent = '-'
-    subtractQuantityButton.addEventListener('click', () => subtractQuantity(item.id))
-    itemDivElement.appendChild(subtractQuantityButton)
+    subtractQuantityButton.addEventListener('click', () => {
+        inventoryItemQuantityParagraph.textContent = parseInt(inventoryItemQuantityParagraph.textContent) - 1
+    })
+    inventoryItemDiv.appendChild(subtractQuantityButton)
 
-    return itemDivElement
+    return inventoryItemDiv
+}
+
+function createInventoryButton (text, action, description, itemId) {
+    const button = document.createElement('button')
+    button.id = `${description}${itemId}`
+    button.textContent = text
+    button.addEventListener('click', () => action())
+    return button
 }
 
 inventory.forEach(item => {
-    const itemDivElement = createItemDivElement(item)
-    document.body.appendChild(itemDivElement)
+    const inventoryItemDiv = createInventoryItemDiv(item)
+    document.body.appendChild(inventoryItemDiv)
 })
 
-function incrementQuantity (itemId) {
-    const quantityLabel = document.getElementById(`quantityForItemId${itemId}`)
-    if (!quantityLabel) {
-        return
-    }
-    quantityLabel.textContent = parseInt(quantityLabel.textContent) + 1
+
+const cartItems = [
+  { id: 1, name: 'Item A', price: 10, quantity: 2 },
+  { id: 2, name: 'Item B', price: 25, quantity: 1 },
+  { id: 3, name: 'Item C', price: 5, quantity: 3 }
+];
+
+function createCartItemDiv (item) {
+    const cartItemDiv = document.createElement('div')
+
+    const itemDescription = document.createElement('p')
+    itemDescription.textContent = `Name: ${item.name} Price: ${item.price} Quantity: `
+    cartItemDiv.appendChild(itemDescription)
+
+    const itemQuantity = document.createElement('p')
+    itemQuantity.textContent = item.quantity
+    cartItemDiv.appendChild(itemQuantity)
+
+    const totalPrice = document.createElement('p')
+    totalPrice.textContent = item.price * item.quantity
+    cartItemDiv.appendChild(totalPrice)
+
+    const incrementQuantityButton = createQuantityButton('+', () => {
+        itemQuantity.textContent = parseInt(itemQuantity.textContent) + 1
+        totalPrice.textContent = parseInt(itemQuantity.textContent) * parseInt(item.price)
+    })
+    cartItemDiv.appendChild(incrementQuantityButton)
+
+    const subtractQuantityButton = createQuantityButton('-', () => {
+        itemQuantity.textContent = parseInt(itemQuantity.textContent) - 1
+        totalPrice.textContent = parseInt(itemQuantity.textContent) * parseInt(item.price)
+    })
+    cartItemDiv.appendChild(subtractQuantityButton)
+
+    return cartItemDiv
 }
 
-function subtractQuantity (itemId) {
-    const quantityLabel = document.getElementById(`quantityForItemId${itemId}`)
-    if (!quantityLabel) {
-        return
-    }
-    quantityLabel.textContent = parseInt(quantityLabel.textContent) - 1
+function createQuantityButton (textContent, action) {
+    const quantityButton = document.createElement('button')
+    quantityButton.textContent = textContent
+    quantityButton.addEventListener('click', () => action())
+    return quantityButton
 }
+
+cartItems.forEach(cartItem => {
+    const cartItemDiv = createCartItemDiv(cartItem)
+    document.body.appendChild(cartItemDiv)
+})
+
+
+const items = ['Apple', 'Banana', 'Orange', 'Grape', 'Mango'];
+
+function createClickableItemsList (clickableItems) {
+    const itemsList = document.createElement('ul')
+
+    clickableItems.forEach(item => {
+        const itemListElement = document.createElement('li')
+        itemListElement.textContent = item
+        itemListElement.addEventListener('click', () => {
+            if (itemListElement.classList.contains('selected')) {
+                itemListElement.classList.remove('selected')
+            } else {
+                itemListElement.classList.add('selected')
+            }
+        })
+        itemsList.appendChild(itemListElement)
+    })
+
+    return itemsList
+}
+
+const itemsList = createClickableItemsList(items)
+document.body.appendChild(itemsList)
+
+
+function createProductsTable (products) {
+    const productsTable = document.createElement('table')
+    productsTable.id = 'productsTable'
+
+    const tableHeader = createTableHeader(products)
+    productsTable.appendChild(tableHeader)
+
+    const tableBody = createTableBody(products)
+    productsTable.appendChild(tableBody)
+
+    return productsTable
+}
+
+function createTableHeader(products){
+    const tableHeader = document.createElement('thead')
+
+    const tableHeaderRow = document.createElement('tr')
+    for (const property in products[0]) {
+        const productTableHeader = document.createElement('th')
+        productTableHeader.textContent = property
+        productTableHeader.addEventListener('click', () => tableHeaderAction(property))
+        tableHeaderRow.appendChild(productTableHeader)
+    }
+    tableHeader.appendChild(tableHeaderRow)
+
+    return tableHeader
+}
+
+function tableHeaderAction (property) {
+    const productsSortedByColumn = sortBySelectedColumn(property)
+
+    const productsTable = document.getElementById('productsTable')
+    const oldTableBody = productsTable.querySelector('tbody')
+    const newTableBody = createTableBody(productsSortedByColumn)
+    productsTable.replaceChild(newTableBody, oldTableBody)
+
+}
+
+function sortBySelectedColumn (column) {
+    const defaultProducts = products.sort((productA, productB) => {
+        if (productA[column] < productB[column]) {
+            return -1
+        } else if (productA[column] > productB[column]) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+    return defaultProducts
+}
+
+function createTableBody(products){
+    const tableBody = document.createElement('tbody')
+    products.forEach(product => {
+        const tableRow = document.createElement('tr')
+
+        for (const property in product) {
+            const tableData = document.createElement('td')
+            tableData.textContent = product[property]
+            tableRow.appendChild(tableData)
+        }
+
+        tableBody.appendChild(tableRow)
+    })
+    return tableBody
+}
+
+const productsTable = createProductsTable(products)
+document.body.appendChild(productsTable)
+
+
+
+
+
