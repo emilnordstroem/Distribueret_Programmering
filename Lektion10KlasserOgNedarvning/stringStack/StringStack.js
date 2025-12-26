@@ -25,3 +25,4 @@ console.log(`Length: ${stack.length}`);
 console.log(`Pop: ${stack.pop()}`);
 console.log(stack.stackList);
 console.log(`Length: ${stack.length}`);
+

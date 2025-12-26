@@ -463,6 +463,41 @@ const productsTable = createProductsTable(products)
 document.body.appendChild(productsTable)
 
 
+function createItemsList (items) {
+    const itemsList = document.createElement('ul')
+    itemsList.id = 'itemsOverviewList'
 
+    items.forEach(item => itemsList.appendChild(createItemListElement(item)))
+    
+    return itemsList
+}
 
+function createItemListElement (item) {
+    const itemListElement = document.createElement('li')
+    for (const property in item) {
+        let textDiv = document.createElement('div')
+        textDiv.classList.add('itemInformationDiv')
+        
+        let textField = document.createElement('p')
+        textField.classList.add(`textFieldFor${property}`)
+        textField.textContent = `${property}: ${item[property]}`
+        textDiv.appendChild(textField)
 
+        if (property === 'quantity') {
+            const incrementQuantityButton = document.createElement('button')
+            incrementQuantityButton.textContent = '+'
+            textDiv.appendChild(incrementQuantityButton)
+
+            const subtractQuantityButton = document.createElement('button')
+            subtractQuantityButton.textContent = '-'
+            textDiv.appendChild(subtractQuantityButton)
+        }
+        
+        itemListElement.appendChild(textDiv)
+    }
+    return itemListElement
+}
+
+const newItemsList = createItemsList(cartItems)
+
+document.body.appendChild(newItemsList)
